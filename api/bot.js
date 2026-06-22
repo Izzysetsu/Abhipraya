@@ -1,10 +1,10 @@
 const { Telegraf } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
 
-// 1. Mengambil Token dari Environment Variables (disetting di dashboard Vercel nanti)
+// 1. Mengambil Token
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY; 
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -55,57 +55,96 @@ async function uploadPhotoToSupabase(ctx, fileId, fileName) {
 }
 
 // ==========================================
-// ALUR PERCAKAPAN AI AGENT
+// ALUR PERCAKAPAN AI AGENT (INPUT CEPAT)
 // ==========================================
 
 bot.start(async (ctx) => {
-    await saveSession(ctx.chat.id, 'IDLE', {});
+    await saveSession(ctx.chat.id, 'AWAITING_TEXT_DETAILS', {});
+    
+    const template = 
+`Nama Pria: 
+Nama Wanita: 
+Tanggal Akad: 
+Waktu Akad: 
+Lokasi Akad: 
+Tanggal Resepsi: 
+Waktu Resepsi: 
+Lokasi Resepsi: 
+Link Maps: `;
+
     ctx.reply(
-        'Halo! Saya adalah Bot AI Pembuat Undangan Web 🤖\n\n' +
-        'Mari kita buat undangan Anda secara interaktif langkah demi langkah. Apakah Anda siap?',
-        {
-            reply_markup: {
-                inline_keyboard: [[{ text: "🚀 Tentu, Mulai Sekarang!", callback_data: 'start_wizard' }]]
-            }
-        }
+        'Halo! 🤖\n\n' +
+        'Untuk mempercepat pembuatan undangan, silakan **Salin (Copy) teks di bawah ini**, isi dengan data klien Anda sesudah tanda titik dua (:), lalu kirimkan kembali ke saya:\n\n' +
+        '👇 *Tahan dan Copy teks di bawah:*', 
+        { parse_mode: 'Markdown' }
     );
+    ctx.reply(template);
 });
 
-bot.action('start_wizard', async (ctx) => {
-    await ctx.answerCbQuery();
-    await saveSession(ctx.chat.id, 'AWAITING_GROOM_NAME', {});
-    ctx.reply('Baiklah! Mari kita mulai.\n\nPertama, siapa nama lengkap **Pengantin Pria**?\n*(Ketik dan kirim namanya di bawah, misal: Romeo Montague)*', { parse_mode: 'Markdown' });
+bot.command('hapus', async (ctx) => {
+    const id = ctx.message.text.replace('/hapus', '').trim();
+    if (!id) return ctx.reply('Mohon sertakan ID. Contoh: /hapus 123456');
+
+    const { error } = await supabase.from('invitations').delete().eq('id', id);
+    if (error) return ctx.reply(`❌ Gagal menghapus undangan: ${error.message}`);
+    
+    ctx.reply(`✅ Undangan dengan ID ${id} berhasil dihapus dari database.`);
 });
 
 bot.on('text', async (ctx) => {
     const chatId = ctx.chat.id;
+    const text = ctx.message.text;
+
+    // Abaikan jika command
+    if (text.startsWith('/')) return;
+
     const session = await getSession(chatId);
     
-    // Abaikan pesan jika tidak sedang dalam alur pembuatan
-    if (session.step === 'IDLE') return;
+    if (session.step === 'AWAITING_TEXT_DETAILS') {
+        try {
+            const lines = text.split('\n');
+            const extract = (key) => {
+                const line = lines.find(l => l.toLowerCase().startsWith(key.toLowerCase()));
+                // Pisahkan string berdasarkan ':' yang pertama
+                if (line) {
+                    const separatorIndex = line.indexOf(':');
+                    if (separatorIndex !== -1) {
+                        return line.substring(separatorIndex + 1).trim() || '-';
+                    }
+                }
+                return '-';
+            };
 
-    if (session.step === 'AWAITING_GROOM_NAME') {
-        session.data.groom_name = ctx.message.text;
-        await saveSession(chatId, 'AWAITING_BRIDE_NAME', session.data);
-        ctx.reply('Siapa nama lengkap **Pengantin Wanita**?\n*(Misal: Juliet Capulet)*', { parse_mode: 'Markdown' });
-    } 
-    else if (session.step === 'AWAITING_BRIDE_NAME') {
-        session.data.bride_name = ctx.message.text;
-        await saveSession(chatId, 'AWAITING_DATE', session.data);
-        ctx.reply('Kapan **Tanggal dan Jam** acara dilangsungkan?\n\n*(Misal: Sabtu, 24 Oktober 2026, Pukul 08:00 WIB)*', { parse_mode: 'Markdown' });
-    }
-    else if (session.step === 'AWAITING_DATE') {
-        session.data.date = ctx.message.text;
-        await saveSession(chatId, 'AWAITING_LOCATION', session.data);
-        ctx.reply('Dimana **Lokasi** acaranya?\n\n*(Misal: Gedung Serbaguna, Jakarta)*', { parse_mode: 'Markdown' });
-    }
-    else if (session.step === 'AWAITING_LOCATION') {
-        session.data.location = ctx.message.text;
-        await saveSession(chatId, 'AWAITING_GROOM_PHOTO', session.data);
-        ctx.reply('Sip! Sekarang, tolong unggah / kirimkan 1 **Foto Pengantin Pria** 📸', { parse_mode: 'Markdown' });
+            const data = {
+                groom_name: extract('Nama Pria'),
+                bride_name: extract('Nama Wanita'),
+                akad_date: extract('Tanggal Akad'),
+                akad_time: extract('Waktu Akad'),
+                akad_location: extract('Lokasi Akad'),
+                resepsi_date: extract('Tanggal Resepsi'),
+                resepsi_time: extract('Waktu Resepsi'),
+                resepsi_location: extract('Lokasi Resepsi'),
+                map_url: extract('Link Maps')
+            };
+
+            // Validasi sederhana
+            if (data.groom_name === '-' || data.bride_name === '-') {
+                return ctx.reply('❌ Format tidak dikenali. Pastikan Anda menyalin template dengan benar beserta tanda titik duanya (:)');
+            }
+
+            await saveSession(chatId, 'AWAITING_GROOM_PHOTO', data);
+            ctx.reply(
+                `Data Teks Tersimpan! ✅\n\n` +
+                `Sekarang, tolong unggah 1 **Foto Pengantin Pria** 📸\n` +
+                `*(Kirim sebagai Foto, bukan Dokumen/File)*`, 
+                { parse_mode: 'Markdown' }
+            );
+        } catch (e) {
+            ctx.reply('❌ Terjadi kesalahan saat membaca data. Pastikan formatnya sama seperti template.');
+        }
     }
     else if (['AWAITING_GROOM_PHOTO', 'AWAITING_BRIDE_PHOTO'].includes(session.step)) {
-        ctx.reply('❌ Saya membutuhkan file gambar/foto, bukan teks. Tolong kirim ulang fotonya ya.');
+        ctx.reply('❌ Saya membutuhkan file Foto. Tolong kirim foto, bukan teks.');
     }
 });
 
@@ -113,10 +152,11 @@ bot.on(['photo', 'document'], async (ctx) => {
     const chatId = ctx.chat.id;
     const session = await getSession(chatId);
     
-    // Ambil fileId baik dari kiriman Photo maupun Document (File)
     const fileId = ctx.message.photo 
         ? ctx.message.photo[ctx.message.photo.length - 1].file_id 
-        : ctx.message.document.file_id;
+        : ctx.message.document?.file_id;
+
+    if (!fileId) return;
 
     if (session.step === 'AWAITING_GROOM_PHOTO') {
         ctx.reply('⏳ Mengunduh dan menyimpan foto pria ke Cloud...');
@@ -142,13 +182,17 @@ bot.on(['photo', 'document'], async (ctx) => {
         const d = session.data;
         const id = Date.now().toString(); 
         
+        // Tema Acak Gacha
+        const themes = ['sage_earth', 'ocean_blue', 'blush_rose', 'monochrome'];
+        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
         const { error } = await supabase.from('invitations').insert([{
             id: id,
-            theme_id: 'sage_earth',
+            theme_id: randomTheme,
             cover_title: 'The Wedding Of',
             cover_groom_bride_name: `${d.groom_name} & ${d.bride_name}`,
-            cover_date_text: d.date.split(',')[0] || d.date, // Ambil kata pertama sebelum koma
-            cover_bg_image: 'assets/cover_bg.png', // Background cover tetap dari template
+            cover_date_text: d.akad_date.split(',')[0] || d.akad_date,
+            cover_bg_image: 'assets/cover_bg.png', 
             opening_quote: '"Cinta tidak berupa tatapan satu sama lain, tetapi memandang keluar bersama ke arah yang sama."',
             groom_name: d.groom_name,
             groom_parent: 'Putra dari Keluarga Pria',
@@ -157,44 +201,40 @@ bot.on(['photo', 'document'], async (ctx) => {
             bride_parent: 'Putri dari Keluarga Wanita',
             bride_photo: d.bride_photo,
             akad_title: 'Akad Nikah',
-            akad_date: d.date,
-            akad_time: 'Lihat Undangan Lengkap',
-            akad_location: d.location,
+            akad_date: d.akad_date,
+            akad_time: d.akad_time,
+            akad_location: d.akad_location,
             resepsi_title: 'Resepsi',
-            resepsi_date: d.date,
-            resepsi_time: 'Lihat Undangan Lengkap',
-            resepsi_location: d.location,
-            map_url: 'https://maps.google.com'
+            resepsi_date: d.resepsi_date,
+            resepsi_time: d.resepsi_time,
+            resepsi_location: d.resepsi_location,
+            map_url: d.map_url !== '-' ? d.map_url : 'https://maps.google.com'
         }]);
 
         if (error) {
             console.error('Database Error:', error);
-            return ctx.reply('❌ Terjadi kesalahan saat menyimpan data akhir ke database.');
+            return ctx.reply(`❌ Terjadi kesalahan saat menyimpan data akhir ke database: ${error.message}`);
         }
 
-        // Generate Vercel Domain
         const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
             ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` 
             : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://[DOMAIN-VERCEL-ANDA].vercel.app');
         
         const inviteUrl = `${domain}/?id=${id}`;
 
-        // Hapus sesi agar kembali idle
         await saveSession(chatId, 'IDLE', {});
 
         ctx.reply(
             `🎉 *Sistem Selesai Bekerja!*\n\n` +
-            `Web Undangan interaktif Anda sudah terbit dengan foto asli Anda di dalamnya:\n` +
+            `Web Undangan interaktif Anda sudah terbit secara dinamis:\n` +
             `🔗 ${inviteUrl}\n\n` +
-            `Silakan di-klik! (Ketik /start lagi jika ingin membuat undangan baru).`,
+            `🎨 *Tema Warna:* ${randomTheme}\n\n` +
+            `Ketik /start lagi jika ingin membuat undangan baru, atau /hapus ${id} untuk menghapusnya.`,
             { parse_mode: 'Markdown' }
         );
     }
 });
 
-// ==========================================
-// HANDLER WEBHOOK VERCEL SERVERLESS
-// ==========================================
 module.exports = async (req, res) => {
     try {
         if (req.method === 'POST') {

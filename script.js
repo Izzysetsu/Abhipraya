@@ -41,6 +41,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         const data = responseData[0]; // Ambil row pertama
         
+        // --- SISTEM TEMA DINAMIS ---
+        const themes = {
+            'sage_earth': { primary: '#859677', primaryDark: '#6C7A60', bg: '#F4F1EA', bgSec: '#E9E4DA', accent: '#D8CDB9', text: '#5C5248' },
+            'ocean_blue': { primary: '#608B9B', primaryDark: '#4A6F7D', bg: '#F0F4F8', bgSec: '#E1E8ED', accent: '#BCCCDC', text: '#3E5C69' },
+            'blush_rose': { primary: '#D4A3A3', primaryDark: '#B88282', bg: '#FDF7F7', bgSec: '#F7EDED', accent: '#EAD1D1', text: '#7A5C5C' },
+            'monochrome': { primary: '#555555', primaryDark: '#333333', bg: '#F9F9F9', bgSec: '#EEEEEE', accent: '#DDDDDD', text: '#444444' }
+        };
+        const activeTheme = themes[data.theme_id] || themes['sage_earth'];
+        document.documentElement.style.setProperty('--color-primary', activeTheme.primary);
+        document.documentElement.style.setProperty('--color-primary-dark', activeTheme.primaryDark);
+        document.documentElement.style.setProperty('--color-bg-primary', activeTheme.bg);
+        document.documentElement.style.setProperty('--color-bg-secondary', activeTheme.bgSec);
+        document.documentElement.style.setProperty('--color-accent', activeTheme.accent);
+        document.documentElement.style.setProperty('--color-text-light', activeTheme.text);
+        
         // 3. Suntik Data ke DOM (Plugging into the holes)
         document.getElementById('nama-pasangan-cover').innerText = data.cover_groom_bride_name;
         document.querySelector('.pre-title').innerText = data.cover_title;
