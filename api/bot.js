@@ -83,12 +83,12 @@ Link Maps: `;
 
 bot.command('hapus', async (ctx) => {
     const id = ctx.message.text.replace('/hapus', '').trim();
-    if (!id) return ctx.reply('Mohon sertakan ID. Contoh: /hapus 123456');
+    if (!id) return await ctx.reply('Mohon sertakan ID. Contoh: /hapus 123456');
 
     const { error } = await supabase.from('invitations').delete().eq('id', id);
-    if (error) return ctx.reply(`❌ Gagal menghapus undangan: ${error.message}`);
+    if (error) return await ctx.reply(`❌ Gagal menghapus undangan: ${error.message}`);
     
-    ctx.reply(`✅ Undangan dengan ID ${id} berhasil dihapus dari database.`);
+    await ctx.reply(`✅ Undangan dengan ID ${id} berhasil dihapus dari database.`);
 });
 
 bot.on('text', async (ctx) => {
@@ -129,22 +129,22 @@ bot.on('text', async (ctx) => {
 
             // Validasi sederhana
             if (data.groom_name === '-' || data.bride_name === '-') {
-                return ctx.reply('❌ Format tidak dikenali. Pastikan Anda menyalin template dengan benar beserta tanda titik duanya (:)');
+                return await ctx.reply('❌ Format tidak dikenali. Pastikan Anda menyalin template dengan benar beserta tanda titik duanya (:)');
             }
 
             await saveSession(chatId, 'AWAITING_GROOM_PHOTO', data);
-            ctx.reply(
+            await ctx.reply(
                 `Data Teks Tersimpan! ✅\n\n` +
                 `Sekarang, tolong unggah 1 **Foto Pengantin Pria** 📸\n` +
                 `*(Kirim sebagai Foto, bukan Dokumen/File)*`, 
                 { parse_mode: 'Markdown' }
             );
         } catch (e) {
-            ctx.reply('❌ Terjadi kesalahan saat membaca data. Pastikan formatnya sama seperti template.');
+            await ctx.reply('❌ Terjadi kesalahan saat membaca data. Pastikan formatnya sama seperti template.');
         }
     }
     else if (['AWAITING_GROOM_PHOTO', 'AWAITING_BRIDE_PHOTO'].includes(session.step)) {
-        ctx.reply('❌ Saya membutuhkan file Foto. Tolong kirim foto, bukan teks.');
+        await ctx.reply('❌ Saya membutuhkan file Foto. Tolong kirim foto, bukan teks.');
     }
 });
 
@@ -159,22 +159,22 @@ bot.on(['photo', 'document'], async (ctx) => {
     if (!fileId) return;
 
     if (session.step === 'AWAITING_GROOM_PHOTO') {
-        ctx.reply('⏳ Mengunduh dan menyimpan foto pria ke Cloud...');
+        await ctx.reply('⏳ Mengunduh dan menyimpan foto pria ke Cloud...');
         const fileName = `groom_${chatId}_${Date.now()}.jpg`;
         const photoUrl = await uploadPhotoToSupabase(ctx, fileId, fileName);
         
-        if (!photoUrl) return ctx.reply('❌ Gagal menyimpan foto ke server. Tolong kirim ulang fotonya.');
+        if (!photoUrl) return await ctx.reply('❌ Gagal menyimpan foto ke server. Tolong kirim ulang fotonya.');
         
         session.data.groom_photo = photoUrl;
         await saveSession(chatId, 'AWAITING_BRIDE_PHOTO', session.data);
-        ctx.reply('Sukses! ✅\n\nTerakhir, tolong kirimkan 1 **Foto Pengantin Wanita** 📸', { parse_mode: 'Markdown' });
+        await ctx.reply('Sukses! ✅\n\nTerakhir, tolong kirimkan 1 **Foto Pengantin Wanita** 📸', { parse_mode: 'Markdown' });
     }
     else if (session.step === 'AWAITING_BRIDE_PHOTO') {
-        ctx.reply('⏳ Menyimpan foto wanita dan merakit Website Undangan...');
+        await ctx.reply('⏳ Menyimpan foto wanita dan merakit Website Undangan...');
         const fileName = `bride_${chatId}_${Date.now()}.jpg`;
         const photoUrl = await uploadPhotoToSupabase(ctx, fileId, fileName);
         
-        if (!photoUrl) return ctx.reply('❌ Gagal menyimpan foto ke server. Tolong kirim ulang fotonya.');
+        if (!photoUrl) return await ctx.reply('❌ Gagal menyimpan foto ke server. Tolong kirim ulang fotonya.');
         
         session.data.bride_photo = photoUrl;
         
@@ -213,7 +213,7 @@ bot.on(['photo', 'document'], async (ctx) => {
 
         if (error) {
             console.error('Database Error:', error);
-            return ctx.reply(`❌ Terjadi kesalahan saat menyimpan data akhir ke database: ${error.message}`);
+            return await ctx.reply(`❌ Terjadi kesalahan saat menyimpan data akhir ke database: ${error.message}`);
         }
 
         const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
@@ -224,7 +224,7 @@ bot.on(['photo', 'document'], async (ctx) => {
 
         await saveSession(chatId, 'IDLE', {});
 
-        ctx.reply(
+        await ctx.reply(
             `🎉 *Sistem Selesai Bekerja!*\n\n` +
             `Web Undangan interaktif Anda sudah terbit secara dinamis:\n` +
             `🔗 ${inviteUrl}\n\n` +
