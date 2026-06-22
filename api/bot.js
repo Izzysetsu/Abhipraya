@@ -72,13 +72,13 @@ Waktu Resepsi:
 Lokasi Resepsi: 
 Link Maps: `;
 
-    ctx.reply(
+    await ctx.reply(
         'Halo! 🤖\n\n' +
         'Untuk mempercepat pembuatan undangan, silakan **Salin (Copy) teks di bawah ini**, isi dengan data klien Anda sesudah tanda titik dua (:), lalu kirimkan kembali ke saya:\n\n' +
-        '👇 *Tahan dan Copy teks di bawah:*', 
+        '👇 *Tahan/Klik teks di bawah untuk meng-copy:*', 
         { parse_mode: 'Markdown' }
     );
-    ctx.reply(template);
+    await ctx.reply(`<pre>${template}</pre>`, { parse_mode: 'HTML' });
 });
 
 bot.command('hapus', async (ctx) => {
