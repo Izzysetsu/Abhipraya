@@ -1,0 +1,9 @@
+{
+  "name": "undangan-web-saas",
+  "version": "1.0.0",
+  "description": "SaaS Mini Undangan Web Webhook Telegram",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "telegraf": "^4.15.0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "123",
+  "theme_id": "sage_earth",
+  "cover": {
+    "title": "The Wedding Of",
+    "groom_bride_name": "Galih & Ratna",
+    "date_text": "15 . 08 . 2026",
+    "bg_image": "assets/cover_bg.png"
+  },
+  "opening": {
+    "quote": "\"Cinta tidak berupa tatapan satu sama lain, tetapi memandang keluar bersama ke arah yang sama.\""
+  },
+  "couple": {
+    "groom": {
+      "name": "Galih Rakasiwi",
+      "parent": "Putra dari Bapak Haryo & Ibu Siti",
+      "photo": "assets/groom_avatar.png"
+    },
+    "bride": {
+      "name": "Ratna Suminar",
+      "parent": "Putri dari Bapak Budi & Ibu Wati",
+      "photo": "assets/bride_avatar.png"
+    }
+  },
+  "event": {
+    "akad": {
+      "title": "Akad Nikah",
+      "date": "Sabtu, 15 Agustus 2026",
+      "time": "08:00 - 10:00 WIB",
+      "location": "Masjid Raya Bintaro\nKawasan Bintaro Jaya, Tangerang Selatan"
+    },
+    "resepsi": {
+      "title": "Resepsi",
+      "date": "Sabtu, 15 Agustus 2026",
+      "time": "11:00 - 14:00 WIB",
+      "location": "Bintaro Jaya Xchange Mall\nTangerang Selatan"
+    },
+    "map_url": "https://maps.google.com"
+  }
+}
