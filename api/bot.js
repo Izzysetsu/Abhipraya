@@ -109,14 +109,17 @@ bot.on('text', async (ctx) => {
     }
 });
 
-bot.on('photo', async (ctx) => {
+bot.on(['photo', 'document'], async (ctx) => {
     const chatId = ctx.chat.id;
     const session = await getSession(chatId);
     
+    // Ambil fileId baik dari kiriman Photo maupun Document (File)
+    const fileId = ctx.message.photo 
+        ? ctx.message.photo[ctx.message.photo.length - 1].file_id 
+        : ctx.message.document.file_id;
+
     if (session.step === 'AWAITING_GROOM_PHOTO') {
         ctx.reply('⏳ Mengunduh dan menyimpan foto pria ke Cloud...');
-        // Ambil resolusi gambar tertinggi
-        const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
         const fileName = `groom_${chatId}_${Date.now()}.jpg`;
         const photoUrl = await uploadPhotoToSupabase(ctx, fileId, fileName);
         
@@ -128,7 +131,6 @@ bot.on('photo', async (ctx) => {
     }
     else if (session.step === 'AWAITING_BRIDE_PHOTO') {
         ctx.reply('⏳ Menyimpan foto wanita dan merakit Website Undangan...');
-        const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
         const fileName = `bride_${chatId}_${Date.now()}.jpg`;
         const photoUrl = await uploadPhotoToSupabase(ctx, fileId, fileName);
         
