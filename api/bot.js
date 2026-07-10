@@ -81,6 +81,20 @@ Link Maps: `;
     await ctx.reply(`<pre>${template}</pre>`, { parse_mode: 'HTML' });
 });
 
+bot.help((ctx) => {
+    const helpMessage = 
+`🤖 *Daftar Perintah (Commands) Bot Undangan* 🤖
+
+/start - Membuat web undangan baru
+/list - Melihat daftar undangan yang aktif & menghapusnya (Interaktif)
+/hapus <ID> - Menghapus undangan secara manual menggunakan ID
+/help - Menampilkan pesan panduan ini
+
+_Pilih salah satu perintah di atas untuk mulai berinteraksi dengan bot._`;
+
+    ctx.reply(helpMessage, { parse_mode: 'Markdown' });
+});
+
 bot.command('hapus', async (ctx) => {
     const id = ctx.message.text.replace('/hapus', '').trim();
     if (!id) return await ctx.reply('Mohon sertakan ID. Contoh: /hapus 123456');
@@ -89,6 +103,59 @@ bot.command('hapus', async (ctx) => {
     if (error) return await ctx.reply(`❌ Gagal menghapus undangan: ${error.message}`);
     
     await ctx.reply(`✅ Undangan dengan ID ${id} berhasil dihapus dari database.`);
+});
+
+bot.command('list', async (ctx) => {
+    await ctx.reply('⏳ Sedang mengambil daftar undangan aktif...');
+    
+    const { data, error } = await supabase.from('invitations').select('id, cover_groom_bride_name, theme_id');
+    
+    if (error) {
+        return await ctx.reply(`❌ Gagal mengambil data: ${error.message}`);
+    }
+    
+    if (!data || data.length === 0) {
+        return await ctx.reply('📭 Saat ini tidak ada undangan yang aktif.');
+    }
+    
+    const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` 
+        : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://[DOMAIN-VERCEL-ANDA].vercel.app');
+    
+    // Create messages with inline buttons for each invitation
+    for (const inv of data) {
+        const inviteUrl = `${domain}/?id=${inv.id}`;
+        await ctx.reply(
+            `💑 *${inv.cover_groom_bride_name}*\n` +
+            `🔗 Link: ${inviteUrl}\n` +
+            `🎨 Tema: ${inv.theme_id}\n` +
+            `🆔 ID: ${inv.id}`,
+            {
+                parse_mode: 'Markdown',
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: '🌐 Buka Web', url: inviteUrl },
+                            { text: '🗑️ Hapus', callback_data: `hapus_${inv.id}` }
+                        ]
+                    ]
+                }
+            }
+        );
+    }
+});
+
+bot.action(/hapus_(.+)/, async (ctx) => {
+    const id = ctx.match[1];
+    
+    const { error } = await supabase.from('invitations').delete().eq('id', id);
+    
+    if (error) {
+        return await ctx.answerCbQuery(`❌ Gagal menghapus: ${error.message}`, { show_alert: true });
+    }
+    
+    await ctx.answerCbQuery('✅ Undangan berhasil dihapus!', { show_alert: true });
+    await ctx.editMessageText(`✅ Undangan dari ID ${id} telah dihapus.`);
 });
 
 bot.on('text', async (ctx) => {
