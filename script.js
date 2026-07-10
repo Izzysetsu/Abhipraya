@@ -1,10 +1,22 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const appLoader = document.getElementById('app-loader');
-
-    // 1. Detect URL Parameter
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Ambil Parameter ID dari URL
     const urlParams = new URLSearchParams(window.location.search);
     const invitationId = urlParams.get('id');
     const demoTheme = urlParams.get('demo');
+
+    // ROUTER SEDERHANA:
+    // Jika tidak ada parameter ?id= atau ?demo=, tampilkan LANDING PAGE
+    if (!invitationId && !demoTheme) {
+        document.getElementById('landing-page').style.display = 'block';
+        document.getElementById('invitation-app').style.display = 'none';
+        return; // Berhenti di sini, tidak perlu memuat data undangan
+    }
+
+    // Jika ada parameter, maka jalankan INVITATION APP
+    document.getElementById('landing-page').style.display = 'none';
+    document.getElementById('invitation-app').style.display = 'block';
+
+    const appLoader = document.getElementById('app-loader');
 
     let responseData = null;
 

@@ -5,16 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Wedding Of</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- LOADER -->
-    <div id="app-loader">
-        <div class="spinner"></div>
+    <!-- ==================== LANDING PAGE ==================== -->
+    <div id="landing-page" style="display: none;">
+        <nav class="navbar">
+            <div class="logo">Abhipraya</div>
+            <div class="nav-links">
+                <a href="templates.html">Katalog Template</a>
+                <a href="login.html" class="btn-nav">Login</a>
+                <a href="register.html" class="btn-nav btn-primary-nav">Sign Up</a>
+            </div>
+        </nav>
+        
+        <header class="hero">
+            <div class="hero-content">
+                <h1>Buat Undangan Pernikahan Digital Secara Instan</h1>
+                <p>Bagikan momen bahagia Anda dengan desain eksklusif, elegan, dan fitur lengkap layaknya website profesional.</p>
+                <div class="hero-buttons">
+                    <a href="templates.html" class="btn-hero btn-hero-primary">Lihat Template</a>
+                    <a href="admin.html" class="btn-hero btn-hero-outline">Masuk ke Dashboard Admin</a>
+                </div>
+            </div>
+        </header>
     </div>
 
-    <!-- SECTION 1: THE COVER -->
+    <!-- ==================== INVITATION APP ==================== -->
+    <div id="invitation-app" style="display: none;">
+        <!-- Loader Utama -->
+        <div id="app-loader">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- COVER PAGE (Sistem Buka Undangan) -->
     <section id="cover-page">
         <img id="bg-visual" src="assets/cover_bg.png" alt="Background Cover">
         <div class="cover-content">
@@ -168,6 +194,7 @@
         <!-- Masukkan file musik Anda sendiri ke folder assets -->
         <source src="assets/wedding_song.mp3" type="audio/mpeg">
     </audio>
+    </div> <!-- END INVITATION APP -->
 
     <script src="script.js"></script>
 </body>
