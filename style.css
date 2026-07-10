@@ -8,7 +8,7 @@
     --color-accent: #D8CDB9;
     
     --font-heading: 'Playfair Display', serif;
-    --font-body: 'Outfit', sans-serif;
+    --font-body: 'Outfit', 'Montserrat', sans-serif;
     
     --border-radius: 12px;
 }
@@ -21,11 +21,36 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--color-bg-primary);
+    background-color: #e5e5e5; /* Background abu-abu lembut untuk desktop */
     color: var(--color-text-main);
     line-height: 1.6;
     overflow-x: hidden;
 }
+
+/* ================== INVITATION APP (MOBILE FRAME) ================== */
+#invitation-app {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: var(--color-bg-primary);
+    min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,0.15);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ================== ANIMATE ON SCROLL (AOS) ================== */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
 
 /* ================== LANDING PAGE STYLES ================== */
 .navbar {
@@ -738,3 +763,61 @@ footer {
     to { transform: rotate(360deg); }
 }
 
+/* ================== FLOATING MUSIC PLAYER ================== */
+.fab-music {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Di luar atau di dalam frame 480px? Karena #invitation-app relative, kita bisa set position absolute di dalam app, tapi fixed lebih bagus untuk layar penuh. */
+    /* Untuk membuatnya menempel di pinggir frame 480px: */
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.3s;
+}
+.fab-music:hover {
+    transform: scale(1.1);
+}
+.fab-music svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+.spin {
+    animation: spin 3s linear infinite;
+}
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* ================== TOAST NOTIFICATION ================== */
+#toast {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 30px;
+    padding: 12px 20px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+}
+#toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}

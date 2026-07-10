@@ -164,19 +164,86 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
+        // --- RENDER LOVE STORY ---
+        const storySection = document.getElementById('love-story');
+        const storyContainer = document.getElementById('story-container');
+        if (data.love_story) {
+            try {
+                const stories = JSON.parse(data.love_story);
+                if (stories.length > 0) {
+                    storySection.style.display = 'block';
+                    storyContainer.innerHTML = '';
+                    stories.forEach((st, idx) => {
+                        const delay = (idx + 1) * 100;
+                        storyContainer.innerHTML += `
+                            <div class="story-item fade-up delay-${delay > 300 ? 300 : delay}">
+                                <h3>${st.year || ''} - ${st.title}</h3>
+                                <p>${st.description}</p>
+                            </div>
+                        `;
+                    });
+                }
+            } catch(e) { console.error("Format Love Story salah"); }
+        } else {
+            storySection.style.display = 'none';
+        }
+
+        // --- RENDER BANK ACCOUNTS (AMPLOP DIGITAL) ---
+        const giftSection = document.getElementById('wedding-gift');
+        const bankContainer = document.getElementById('bank-container');
+        if (data.bank_accounts) {
+            try {
+                const banks = JSON.parse(data.bank_accounts);
+                if (banks.length > 0) {
+                    giftSection.style.display = 'block';
+                    bankContainer.innerHTML = '';
+                    banks.forEach((b, idx) => {
+                        const delay = (idx + 1) * 100;
+                        bankContainer.innerHTML += `
+                            <div class="bank-card fade-up delay-${delay > 300 ? 300 : delay}">
+                                <h3>${b.bank}</h3>
+                                <p style="font-size: 1.2rem; font-weight: 600; letter-spacing: 2px; margin: 10px 0;">${b.account_number}</p>
+                                <p style="color: var(--color-text-light); margin-bottom: 15px;">A/N: ${b.account_name}</p>
+                                <button onclick="copyRekening('${b.account_number}')" class="btn btn-outline" style="width: 100%; display:flex; justify-content:center; align-items:center; gap: 8px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    Salin Rekening
+                                </button>
+                            </div>
+                        `;
+                    });
+                }
+            } catch(e) { console.error("Format Bank salah"); }
+        } else {
+            giftSection.style.display = 'none';
+        }
+
+        // --- RENDER WISHES ---
+        const wishesContainer = document.getElementById('wishes-container');
+        if (data.wishes && data.wishes.length > 0) {
+            wishesContainer.innerHTML = '';
+            data.wishes.forEach(wish => {
+                const badgeClass = wish.attendance === 'Hadir' ? 'hadir' : 'tidak-hadir';
+                wishesContainer.innerHTML += `
+                    <div class="wish-item fade-up">
+                        <h4>${wish.name}</h4>
+                        <span class="badge ${badgeClass}">${wish.attendance}</span>
+                        <p>${wish.message}</p>
+                    </div>
+                `;
+            });
+        }
+
         // 4. Sembunyikan Loader secara halus
         if (urlParams.get('preview') === '1') {
             appLoader.style.display = 'none';
             document.getElementById('cover-page').style.display = 'none';
-            document.getElementById('main-content').style.visibility = 'visible';
-            document.getElementById('main-content').style.opacity = '1';
         } else {
             setTimeout(() => {
                 appLoader.style.opacity = '0';
                 setTimeout(() => {
                     appLoader.style.display = 'none';
                 }, 500);
-            }, 500); // Sedikit delay buatan agar spinner terlihat elegan
+            }, 500);
         }
 
     } catch (error) {
@@ -184,59 +251,95 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.innerHTML = `
             <div style="display:flex; height:100vh; justify-content:center; align-items:center; background-color:#F4F1EA; font-family:'Outfit', sans-serif; flex-direction:column; text-align:center;">
                 <h2 style="color:#5C5248; margin-bottom: 10px;">Undangan Tidak Ditemukan</h2>
-                <p style="color:#859677;">ID: <b>${invitationId}</b> tidak terdaftar di sistem kami.</p>
+                <p style="color:#859677;">Terjadi kesalahan saat memuat data undangan.</p>
             </div>
         `;
         return;
     }
 
-    // ==========================================
-    // KODE UI INTERAKSI LAMA
-    // ==========================================
-    const btnOpen = document.getElementById('btn-open');
-    const coverPage = document.getElementById('cover-page');
-    const mainContent = document.getElementById('main-content');
-    const bgMusic = document.getElementById('bg-music');
-
-    // Smooth scrolling & reveal invitation
-    btnOpen.addEventListener('click', () => {
-        if (bgMusic.paused) {
-            bgMusic.play().catch(error => {
-                console.log("Audio autoplay was prevented by browser.");
-            });
-        }
-
-        coverPage.style.transform = 'translateY(-100vh)';
-
-        setTimeout(() => {
-            coverPage.style.display = 'none';
-            mainContent.style.visibility = 'visible';
-            mainContent.style.opacity = '1';
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }, 1200);
+    // --- ANIMATE ON SCROLL (AOS) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    // Tambahkan class fade-up ke semua section secara dinamis jika belum ada
+    document.querySelectorAll('.section').forEach(sec => {
+        if (!sec.classList.contains('fade-up')) sec.classList.add('fade-up');
     });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
+    // --- MUSIC PLAYER & BUKA UNDANGAN ---
+    const btnOpen = document.getElementById('btn-open') || document.getElementById('btn-buka');
+    const coverPage = document.getElementById('cover-page');
+    const bgMusic = document.getElementById('bg-music');
+    const fabMusic = document.getElementById('fab-music');
+    let isMusicPlaying = false;
+
+    if (btnOpen) {
+        btnOpen.addEventListener('click', () => {
+            if (bgMusic && bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    if (fabMusic) {
+                        fabMusic.style.display = 'flex';
+                        fabMusic.classList.add('spin');
+                    }
+                }).catch(e => console.log("Autoplay prevented"));
+            }
+
+            coverPage.style.transform = 'translateY(-100vh)';
+            setTimeout(() => {
+                coverPage.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 1200);
+        });
+    }
+
+    // --- RSVP SUBMISSION ---
     const rsvpForm = document.getElementById('rsvp-form');
     if (rsvpForm) {
         rsvpForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const name = document.getElementById('guest-name').value;
-            const attendance = document.getElementById('guest-attendance').value;
-            const wish = document.getElementById('guest-wish').value;
-
-            if (name && attendance && wish) {
-                const btnSubmit = document.querySelector('.btn-submit');
-                const originalText = btnSubmit.innerText;
-                btnSubmit.innerText = 'Terkirim!';
-                btnSubmit.style.backgroundColor = '#6C7A60';
-
-                setTimeout(() => {
-                    btnSubmit.innerText = originalText;
-                    btnSubmit.style.backgroundColor = '';
-                    rsvpForm.reset();
-                }, 3000);
-            }
+            const btnSubmit = document.querySelector('.btn-submit');
+            const originalText = btnSubmit.innerText;
+            btnSubmit.innerText = 'Terkirim!';
+            btnSubmit.style.backgroundColor = '#6C7A60';
+            setTimeout(() => {
+                btnSubmit.innerText = originalText;
+                btnSubmit.style.backgroundColor = '';
+                rsvpForm.reset();
+            }, 3000);
         });
     }
 });
+
+// Global Function untuk Toggle Music dari HTML onClick
+window.toggleMusic = function() {
+    const bgMusic = document.getElementById('bg-music');
+    const fabMusic = document.getElementById('fab-music');
+    if (!bgMusic) return;
+
+    if (bgMusic.paused) {
+        bgMusic.play();
+        fabMusic.classList.add('spin');
+    } else {
+        bgMusic.pause();
+        fabMusic.classList.remove('spin');
+    }
+};
+
+// Global Function untuk Copy Rekening dari HTML onClick
+window.copyRekening = function(rek) {
+    navigator.clipboard.writeText(rek).then(() => {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.innerText = 'Rekening ' + rek + ' disalin!';
+            toast.className = 'show';
+            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3000);
+        }
+    });
+};
