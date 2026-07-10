@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Dashboard - Viding Clone</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <div>
+                    <h1>Dashboard Undangan</h1>
+                    <p class="subtitle">Kelola semua undangan digital klien Anda dari satu tempat.</p>
+                </div>
+                <a href="builder.html" class="btn btn-primary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Buat Undangan Baru
+                </a>
+            </div>
+
+            <div id="loader" class="loader"></div>
+            
+            <div class="table-container" id="table-container" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mempelai</th>
+                            <th>Tema</th>
+                            <th>Tanggal Akad</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invitation-list">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="empty-state" style="display:none; text-align:center; padding: 40px; color: #6b7280;">Belum ada undangan yang dibuat. Silakan buat undangan baru.</p>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

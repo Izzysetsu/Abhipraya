@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder Undangan - Viding Clone</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <div>
+                    <h1>Buat Undangan Baru</h1>
+                    <p class="subtitle">Isi data pengantin untuk merakit undangan digital Anda.</p>
+                </div>
+                <a href="admin.html" class="btn btn-outline">Kembali ke Dashboard</a>
+            </div>
+
+            <form id="builder-form" class="form-grid">
+                
+                <div class="section-title">Data Mempelai Pria</div>
+                <div class="form-group">
+                    <label>Nama Panggilan Pria</label>
+                    <input type="text" id="groom_name" placeholder="Misal: Galih" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap & Orang Tua</label>
+                    <input type="text" id="groom_parent" placeholder="Misal: Putra dari Bpk. Haryo & Ibu Siti" required>
+                </div>
+
+                <div class="section-title">Data Mempelai Wanita</div>
+                <div class="form-group">
+                    <label>Nama Panggilan Wanita</label>
+                    <input type="text" id="bride_name" placeholder="Misal: Ratna" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap & Orang Tua</label>
+                    <input type="text" id="bride_parent" placeholder="Misal: Putri dari Bpk. Budi & Ibu Wati" required>
+                </div>
+
+                <div class="section-title">Detail Acara (Akad)</div>
+                <div class="form-group">
+                    <label>Tanggal Akad</label>
+                    <input type="text" id="akad_date" placeholder="Misal: Sabtu, 15 Agustus 2026" required>
+                </div>
+                <div class="form-group">
+                    <label>Waktu Akad</label>
+                    <input type="text" id="akad_time" placeholder="Misal: 08:00 - 10:00 WIB" required>
+                </div>
+                <div class="form-group form-full">
+                    <label>Lokasi Akad</label>
+                    <input type="text" id="akad_location" placeholder="Misal: Masjid Raya Bintaro" required>
+                </div>
+
+                <div class="section-title">Detail Acara (Resepsi)</div>
+                <div class="form-group">
+                    <label>Tanggal Resepsi</label>
+                    <input type="text" id="resepsi_date" placeholder="Misal: Sabtu, 15 Agustus 2026" required>
+                </div>
+                <div class="form-group">
+                    <label>Waktu Resepsi</label>
+                    <input type="text" id="resepsi_time" placeholder="Misal: 11:00 - 14:00 WIB" required>
+                </div>
+                <div class="form-group form-full">
+                    <label>Lokasi Resepsi</label>
+                    <input type="text" id="resepsi_location" placeholder="Misal: Bintaro Jaya Xchange Mall" required>
+                </div>
+                
+                <div class="section-title">Konfigurasi Desain & Peta</div>
+                <div class="form-group">
+                    <label>Link Google Maps</label>
+                    <input type="url" id="map_url" placeholder="https://maps.google.com/..." required>
+                </div>
+                <div class="form-group">
+                    <label>Tema Warna</label>
+                    <select id="theme_id" required>
+                        <option value="sage_earth">🌿 Sage Earth (Hijau Natural)</option>
+                        <option value="ocean_blue">🌊 Ocean Blue (Biru Laut)</option>
+                        <option value="blush_rose">🌹 Blush Rose (Merah Muda)</option>
+                        <option value="monochrome">⚪ Monochrome (Hitam Putih)</option>
+                    </select>
+                </div>
+
+                <div class="form-group form-full" style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.1rem;">
+                        ✨ Generate Undangan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
