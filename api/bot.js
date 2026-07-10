@@ -106,42 +106,46 @@ bot.command('hapus', async (ctx) => {
 });
 
 bot.command('list', async (ctx) => {
-    await ctx.reply('⏳ Sedang mengambil daftar undangan aktif...');
-    
-    const { data, error } = await supabase.from('invitations').select('id, cover_groom_bride_name, theme_id');
-    
-    if (error) {
-        return await ctx.reply(`❌ Gagal mengambil data: ${error.message}`);
-    }
-    
-    if (!data || data.length === 0) {
-        return await ctx.reply('📭 Saat ini tidak ada undangan yang aktif.');
-    }
-    
-    const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
-        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` 
-        : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://[DOMAIN-VERCEL-ANDA].vercel.app');
-    
-    // Create messages with inline buttons for each invitation
-    for (const inv of data) {
-        const inviteUrl = `${domain}/?id=${inv.id}`;
-        await ctx.reply(
-            `💑 *${inv.cover_groom_bride_name}*\n` +
-            `🔗 Link: ${inviteUrl}\n` +
-            `🎨 Tema: ${inv.theme_id}\n` +
-            `🆔 ID: ${inv.id}`,
-            {
-                parse_mode: 'Markdown',
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            { text: '🌐 Buka Web', url: inviteUrl },
-                            { text: '🗑️ Hapus', callback_data: `hapus_${inv.id}` }
+    try {
+        await ctx.reply('⏳ Sedang mengambil daftar undangan aktif...');
+        
+        const { data, error } = await supabase.from('invitations').select('id, cover_groom_bride_name, theme_id');
+        
+        if (error) {
+            return await ctx.reply(`❌ Gagal mengambil data: ${error.message}`);
+        }
+        
+        if (!data || data.length === 0) {
+            return await ctx.reply('📭 Saat ini tidak ada undangan yang aktif.');
+        }
+        
+        const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
+            ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` 
+            : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://domain-anda.vercel.app');
+        
+        // Create messages with inline buttons for each invitation
+        for (const inv of data) {
+            const inviteUrl = `${domain}/?id=${inv.id}`;
+            await ctx.reply(
+                `💑 ${inv.cover_groom_bride_name}\n` +
+                `🔗 Link: ${inviteUrl}\n` +
+                `🎨 Tema: ${inv.theme_id}\n` +
+                `🆔 ID: ${inv.id}`,
+                {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                { text: '🌐 Buka Web', url: inviteUrl },
+                                { text: '🗑️ Hapus', callback_data: `hapus_${inv.id}` }
+                            ]
                         ]
-                    ]
+                    }
                 }
-            }
-        );
+            );
+        }
+    } catch (e) {
+        console.error('List command error:', e);
+        await ctx.reply('❌ Terjadi kesalahan pada sistem saat memuat daftar undangan.');
     }
 });
 
@@ -285,7 +289,7 @@ bot.on(['photo', 'document'], async (ctx) => {
 
         const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL 
             ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` 
-            : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://[DOMAIN-VERCEL-ANDA].vercel.app');
+            : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://domain-anda.vercel.app');
         
         const inviteUrl = `${domain}/?id=${id}`;
 
