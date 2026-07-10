@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 1. Ambil Parameter ID dari URL
     const urlParams = new URLSearchParams(window.location.search);
     const invitationId = urlParams.get('id');
