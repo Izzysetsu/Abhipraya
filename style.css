@@ -293,7 +293,37 @@ body {
     box-shadow: 0 6px 20px rgba(133, 150, 119, 0.3);
 }
 
-/* SECTION 5: RSVP */
+/* SECTION 5: GALLERY */
+#gallery {
+    background-color: var(--color-bg-primary);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    padding: 0 1rem;
+}
+
+.gallery-item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border: 3px solid #fff;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+/* SECTION 6: RSVP */
 #rsvp-wishes {
     background-color: var(--color-bg-secondary);
 }

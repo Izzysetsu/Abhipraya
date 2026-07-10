@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Template - Viding Clone</title>
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .template-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.8);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .template-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+        }
+        .template-preview {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: #eee;
+            /* In a real app this would be screenshots. For now we use color blocks */
+        }
+        .template-info {
+            padding: 15px;
+            text-align: center;
+        }
+        .template-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .template-info p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .sage_earth .template-preview { background: linear-gradient(180deg, #F4F1EA, #859677); }
+        .ocean_blue .template-preview { background: linear-gradient(180deg, #F0F4F8, #608B9B); }
+        .blush_rose .template-preview { background: linear-gradient(180deg, #FDF7F7, #D4A3A3); }
+        .monochrome .template-preview { background: linear-gradient(180deg, #F9F9F9, #555555); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel">
+            <div class="header">
+                <div>
+                    <h1>Pilih Template Desain</h1>
+                    <p class="subtitle">Langkah 1: Pilih desain undangan digital yang paling Anda suka.</p>
+                </div>
+                <a href="admin.html" class="btn btn-outline">Batal</a>
+            </div>
+
+            <div class="template-grid" id="template-selector">
+                <div class="template-card sage_earth" data-theme="sage_earth">
+                    <div class="template-preview"></div>
+                    <div class="template-info">
+                        <h3>🌿 Sage Earth</h3>
+                        <p>Hijau natural, estetik & kalem</p>
+                    </div>
+                </div>
+                <div class="template-card ocean_blue" data-theme="ocean_blue">
+                    <div class="template-preview"></div>
+                    <div class="template-info">
+                        <h3>🌊 Ocean Blue</h3>
+                        <p>Biru laut, elegan & segar</p>
+                    </div>
+                </div>
+                <div class="template-card blush_rose" data-theme="blush_rose">
+                    <div class="template-preview"></div>
+                    <div class="template-info">
+                        <h3>🌹 Blush Rose</h3>
+                        <p>Merah muda, manis & romantis</p>
+                    </div>
+                </div>
+                <div class="template-card monochrome" data-theme="monochrome">
+                    <div class="template-preview"></div>
+                    <div class="template-info">
+                        <h3>⚪ Monochrome</h3>
+                        <p>Hitam putih, modern minimalis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button id="btn-next" class="btn btn-primary" disabled style="padding: 15px 40px; font-size: 1.1rem; opacity: 0.5; cursor: not-allowed;">
+                    Lanjut Isi Data Mempelai ➔
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedTheme = null;
+        const cards = document.querySelectorAll('.template-card');
+        const btnNext = document.getElementById('btn-next');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedTheme = card.getAttribute('data-theme');
+                
+                btnNext.disabled = false;
+                btnNext.style.opacity = '1';
+                btnNext.style.cursor = 'pointer';
+            });
+        });
+
+        btnNext.addEventListener('click', () => {
+            if (selectedTheme) {
+                window.location.href = `builder.html?theme=${selectedTheme}`;
+            }
+        });
+    </script>
+</body>
+</html>

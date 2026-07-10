@@ -24,7 +24,9 @@ CREATE TABLE public.invitations (
   resepsi_date text,
   resepsi_time text,
   resepsi_location text,
-  map_url text
+  map_url text,
+  gallery_images text,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- 2. Mengaktifkan Row Level Security (RLS) agar API bisa diakses secara publik (Read Only)

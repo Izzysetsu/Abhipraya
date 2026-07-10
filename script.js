@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         document.getElementById('teks-kutipan').innerText = data.opening_quote;
         
-        document.getElementById('foto-pria').src = data.groom_photo;
+        document.getElementById('foto-pria').src = data.groom_photo || 'assets/groom_avatar.png';
         document.querySelector('#couple .profile:nth-child(1) h3').innerText = data.groom_name;
         document.querySelector('#couple .profile:nth-child(1) p').innerText = data.groom_parent;
         
-        document.getElementById('foto-wanita').src = data.bride_photo;
+        document.getElementById('foto-wanita').src = data.bride_photo || 'assets/bride_avatar.png';
         document.querySelector('#couple .profile:nth-child(3) h3').innerText = data.bride_name;
         document.querySelector('#couple .profile:nth-child(3) p').innerText = data.bride_parent;
         
@@ -87,6 +87,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         resepsiCard.querySelector('.event-location').innerHTML = (data.resepsi_location || '').replace(/\n/g, '<br>');
         
         document.getElementById('btn-maps').href = data.map_url;
+        
+        // --- RENDER GALERI PRE-WEDDING ---
+        if (data.gallery_images) {
+            const gallerySection = document.getElementById('gallery');
+            const galleryContainer = document.getElementById('gallery-container');
+            const imageUrls = data.gallery_images.split(',');
+            
+            if (imageUrls.length > 0 && imageUrls[0].trim() !== '') {
+                gallerySection.style.display = 'flex'; // Tampilkan section
+                imageUrls.forEach(url => {
+                    if (url.trim() !== '') {
+                        const img = document.createElement('img');
+                        img.src = url.trim();
+                        img.className = 'gallery-item';
+                        galleryContainer.appendChild(img);
+                    }
+                });
+            }
+        }
 
         // 4. Sembunyikan Loader secara halus
         setTimeout(() => {
