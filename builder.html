@@ -88,6 +88,18 @@
                     <input type="url" id="map_url" placeholder="https://maps.google.com/..." required>
                 </div>
 
+                <div class="section-title">Kisah Cinta & Hadiah (Opsional)</div>
+                <div class="form-group form-full">
+                    <label>Love Story (Format JSON)</label>
+                    <textarea id="love_story" rows="3" placeholder='[{"title":"Bertemu","text":"Di kafe..."}]'></textarea>
+                    <small style="color: #666;">Isi dengan format JSON. Kosongkan jika tidak ingin ditampilkan.</small>
+                </div>
+                <div class="form-group form-full">
+                    <label>Rekening Bank (Format JSON)</label>
+                    <textarea id="bank_accounts" rows="3" placeholder='[{"bank":"BCA","name":"Budi","number":"123"}]'></textarea>
+                    <small style="color: #666;">Isi dengan format JSON. Kosongkan jika tidak ingin ditampilkan.</small>
+                </div>
+
                 <!-- Hidden field for theme passed from templates.html -->
                 <input type="hidden" id="theme_id" value="">
 

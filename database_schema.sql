@@ -26,6 +26,8 @@ CREATE TABLE public.invitations (
   resepsi_location text,
   map_url text,
   gallery_images text,
+  love_story text,
+  bank_accounts text,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

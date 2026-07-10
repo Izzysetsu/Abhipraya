@@ -148,7 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     resepsi_time: document.getElementById('resepsi_time').value,
                     resepsi_location: document.getElementById('resepsi_location').value,
                     map_url: document.getElementById('map_url').value,
-                    gallery_images: galleryUrls.join(',') // comma separated urls
+                    gallery_images: galleryUrls.join(','), // comma separated urls
+                    love_story: document.getElementById('love_story').value,
+                    bank_accounts: document.getElementById('bank_accounts').value
                 };
 
                 const { error } = await supabaseClient
