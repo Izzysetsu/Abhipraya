@@ -13,12 +13,22 @@
             <div class="header">
                 <div>
                     <h1>Dashboard Undangan</h1>
-                    <p class="subtitle">Kelola semua undangan digital klien Anda dari satu tempat.</p>
+                    <p class="subtitle" id="welcome-msg">Kelola undangan digital Anda.</p>
                 </div>
-                <a href="templates.html" class="btn btn-primary">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                    Buat Undangan Baru
-                </a>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="templates.html" class="btn btn-primary" id="btn-create-inv">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        Buat Undangan Baru
+                    </a>
+                    <button id="btn-logout" class="btn btn-outline" style="color: #d32f2f; border-color: #d32f2f;">Logout</button>
+                </div>
+            </div>
+
+            <!-- Bagian Khusus Admin -->
+            <div id="admin-panel" style="display: none; background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+                <h3 style="margin-bottom: 10px;">Panel Admin</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Sebagai admin, Anda melihat semua undangan. Anda bisa membuat akun untuk klien di tab rahasia / Incognito menggunakan halaman Register.</p>
+                <a href="register.html" target="_blank" class="btn btn-outline">Buka Halaman Register Klien</a>
             </div>
 
             <div id="loader" class="loader"></div>

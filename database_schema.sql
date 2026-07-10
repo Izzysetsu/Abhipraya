@@ -28,6 +28,7 @@ CREATE TABLE public.invitations (
   gallery_images text,
   love_story text,
   bank_accounts text,
+  user_id UUID,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

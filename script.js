@@ -149,12 +149,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // 4. Sembunyikan Loader secara halus
-        setTimeout(() => {
-            appLoader.style.opacity = '0';
+        if (urlParams.get('preview') === '1') {
+            appLoader.style.display = 'none';
+            document.getElementById('cover-page').style.display = 'none';
+            document.getElementById('main-content').style.visibility = 'visible';
+            document.getElementById('main-content').style.opacity = '1';
+        } else {
             setTimeout(() => {
-                appLoader.style.display = 'none';
-            }, 500);
-        }, 500); // Sedikit delay buatan agar spinner terlihat elegan
+                appLoader.style.opacity = '0';
+                setTimeout(() => {
+                    appLoader.style.display = 'none';
+                }, 500);
+            }, 500); // Sedikit delay buatan agar spinner terlihat elegan
+        }
 
     } catch (error) {
         console.error("Error fetching data:", error);

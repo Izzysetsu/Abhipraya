@@ -29,13 +29,27 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
         }
-        .template-preview {
+        
+        /* IFRAME SCALING FOR ACCURATE PREVIEW */
+        .iframe-wrapper {
             width: 100%;
             height: 300px;
-            object-fit: cover;
+            overflow: hidden;
+            position: relative;
             background: #eee;
-            /* In a real app this would be screenshots. For now we use color blocks */
         }
+        .iframe-wrapper iframe {
+            width: 400%; /* scaled down to 25% */
+            height: 1200px;
+            transform: scale(0.25);
+            transform-origin: top left;
+            border: none;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
         .template-info {
             padding: 15px;
             text-align: center;
@@ -49,10 +63,6 @@
             font-size: 0.85rem;
             color: #666;
         }
-        .sage_earth .template-preview { background: linear-gradient(180deg, #F4F1EA, #859677); }
-        .ocean_blue .template-preview { background: linear-gradient(180deg, #F0F4F8, #608B9B); }
-        .blush_rose .template-preview { background: linear-gradient(180deg, #FDF7F7, #D4A3A3); }
-        .monochrome .template-preview { background: linear-gradient(180deg, #F9F9F9, #555555); }
     </style>
 </head>
 <body>
@@ -68,7 +78,7 @@
 
             <div class="template-grid" id="template-selector">
                 <div class="template-card sage_earth" data-theme="sage_earth">
-                    <img src="assets/sage_preview.png" class="template-preview" alt="Sage Earth">
+                    <div class="iframe-wrapper"><iframe src="index.html?demo=sage_earth&preview=1" loading="lazy"></iframe></div>
                     <div class="template-info">
                         <h3>🌿 Sage Earth</h3>
                         <p>Hijau natural, estetik & kalem</p>
@@ -76,7 +86,7 @@
                     </div>
                 </div>
                 <div class="template-card ocean_blue" data-theme="ocean_blue">
-                    <img src="assets/ocean_preview.png" class="template-preview" alt="Ocean Blue">
+                    <div class="iframe-wrapper"><iframe src="index.html?demo=ocean_blue&preview=1" loading="lazy"></iframe></div>
                     <div class="template-info">
                         <h3>🌊 Ocean Blue</h3>
                         <p>Biru laut, elegan & segar</p>
@@ -84,7 +94,7 @@
                     </div>
                 </div>
                 <div class="template-card blush_rose" data-theme="blush_rose">
-                    <img src="assets/blush_preview.png" class="template-preview" alt="Blush Rose">
+                    <div class="iframe-wrapper"><iframe src="index.html?demo=blush_rose&preview=1" loading="lazy"></iframe></div>
                     <div class="template-info">
                         <h3>🌹 Blush Rose</h3>
                         <p>Merah muda, manis & romantis</p>
@@ -92,7 +102,7 @@
                     </div>
                 </div>
                 <div class="template-card monochrome" data-theme="monochrome">
-                    <img src="assets/mono_preview.png" class="template-preview" alt="Monochrome">
+                    <div class="iframe-wrapper"><iframe src="index.html?demo=monochrome&preview=1" loading="lazy"></iframe></div>
                     <div class="template-info">
                         <h3>⚪ Monochrome</h3>
                         <p>Hitam putih, modern minimalis</p>

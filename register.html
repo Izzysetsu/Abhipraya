@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Akun Klien - Abhipraya</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel login-box" style="border-top: 4px solid var(--primary);">
+            <h1>Buat Akun Klien</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Halaman rahasia admin untuk mendaftarkan klien setelah pembayaran.</p>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email Klien" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Buatkan Password Default (min 6 char)" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Daftarkan Klien</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const SUPABASE_URL = "https://sbbgliehirnjkfmhhjgi.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiYmdsaWVoaXJuamtmbWhoamdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMDk4MDEsImV4cCI6MjA5NzY4NTgwMX0.L8jx55kyLPuJQuDuK4dMpgsMJV-TRKvZM3VZrva-DSQ";
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = 'Mendaftarkan...';
+            btn.disabled = true;
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Karena signUp di client-side otomatis login,
+            // lebih baik ingatkan admin untuk melakukannya di tab rahasia.
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                alert('Pendaftaran Gagal: ' + error.message);
+                btn.innerHTML = 'Daftarkan Klien';
+                btn.disabled = false;
+            } else {
+                alert(`Akun berhasil dibuat!\n\nEmail: ${email}\nPassword: ${password}\n\nSilakan berikan info ini ke klien Anda.`);
+                document.getElementById('register-form').reset();
+                btn.innerHTML = 'Daftarkan Klien';
+                btn.disabled = false;
+                // Logout the newly registered session so admin doesn't get stuck logged in as the client.
+                await supabase.auth.signOut();
+            }
+        });
+    </script>
+</body>
+</html>

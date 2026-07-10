@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Abhipraya Undangan</title>
+    <link rel="stylesheet" href="admin.css">
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel login-box">
+            <h1>Login</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Masuk ke dashboard untuk mengelola undangan Anda.</p>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email Anda" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Masuk</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                Belum punya akun? Hubungi Admin via WhatsApp setelah melakukan pembayaran.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const SUPABASE_URL = "https://sbbgliehirnjkfmhhjgi.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiYmdsaWVoaXJuamtmbWhoamdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMDk4MDEsImV4cCI6MjA5NzY4NTgwMX0.L8jx55kyLPuJQuDuK4dMpgsMJV-TRKvZM3VZrva-DSQ";
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = 'Memproses...';
+            btn.disabled = true;
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                alert('Login Gagal: ' + error.message);
+                btn.innerHTML = 'Masuk';
+                btn.disabled = false;
+            } else {
+                window.location.href = 'admin.html';
+            }
+        });
+
+        // Check if already logged in
+        async function checkSession() {
+            const { data } = await supabase.auth.getSession();
+            if (data.session) {
+                window.location.href = 'admin.html';
+            }
+        }
+        checkSession();
+    </script>
+</body>
+</html>

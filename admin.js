@@ -5,24 +5,67 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Inisialisasi Supabase Client
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     
+    // --- CEK SESI LOGIN ---
+    let currentUser = null;
+    let isAdmin = false;
+
+    // Jika di halaman yang butuh login (admin.html atau builder.html atau templates.html)
+    if (window.location.pathname.includes('admin.html') || window.location.pathname.includes('builder.html') || window.location.pathname.includes('templates.html')) {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        currentUser = session.user;
+        // Asumsi email admin adalah email Anda (bisa diganti sesuai email Anda)
+        isAdmin = currentUser.email.includes('admin'); // Misal: admin@abhipraya.com
+    }
+
     // --- HALAMAN DASHBOARD (admin.html) ---
     const tableContainer = document.getElementById('table-container');
     const invitationList = document.getElementById('invitation-list');
     const emptyState = document.getElementById('empty-state');
     const loader = document.getElementById('loader');
+    const welcomeMsg = document.getElementById('welcome-msg');
+    const adminPanel = document.getElementById('admin-panel');
+    const btnLogout = document.getElementById('btn-logout');
+
+    if (btnLogout) {
+        btnLogout.addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'login.html';
+        });
+    }
 
     if (tableContainer) {
+        if (welcomeMsg) {
+            welcomeMsg.innerText = `Selamat datang, ${currentUser.email}`;
+        }
+        
+        if (isAdmin) {
+            if (adminPanel) adminPanel.style.display = 'block';
+        }
+
         fetchInvitations();
     }
 
     async function fetchInvitations() {
         try {
-            const { data, error } = await supabaseClient
+            let query = supabaseClient
                 .from('invitations')
-                .select('id, cover_groom_bride_name, theme_id, akad_date')
+                .select('id, cover_groom_bride_name, theme_id, akad_date, user_id')
                 .order('id', { ascending: false });
+
+            // Filter data untuk klien biasa
+            if (!isAdmin) {
+                query = query.eq('user_id', currentUser.id);
+            }
+
+            const { data, error } = await query;
 
             if (error) throw error;
 
@@ -150,7 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     map_url: document.getElementById('map_url').value,
                     gallery_images: galleryUrls.join(','), // comma separated urls
                     love_story: document.getElementById('love_story').value,
-                    bank_accounts: document.getElementById('bank_accounts').value
+                    bank_accounts: document.getElementById('bank_accounts').value,
+                    user_id: currentUser.id
                 };
 
                 const { error } = await supabaseClient
