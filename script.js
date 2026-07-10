@@ -109,6 +109,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.documentElement.style.setProperty('--color-accent', activeTheme.accent);
         document.documentElement.style.setProperty('--color-text-light', activeTheme.text);
 
+        // APLIKASIKAN CLASS TEMA KE BODY UNTUK VARIASI LAYOUT
+        document.body.className = ''; // Reset
+        document.body.classList.add(`theme-${data.theme_id || 'sage_earth'}`);
+
         // 3. Suntik Data ke DOM (Plugging into the holes)
         document.getElementById('nama-pasangan-cover').innerText = data.cover_groom_bride_name;
         document.querySelector('.pre-title').innerText = data.cover_title;
