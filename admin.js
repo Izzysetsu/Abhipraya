@@ -11,15 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentUser = null;
     let isAdmin = false;
 
-    // Jika di halaman yang butuh login (admin.html atau builder.html atau templates.html)
-    if (window.location.pathname.includes('admin.html') || window.location.pathname.includes('builder.html') || window.location.pathname.includes('templates.html')) {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        
-        if (!session) {
-            window.location.href = 'login.html';
-            return;
-        }
-        
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    
+    if (session) {
         currentUser = session.user;
         // Asumsi email admin adalah email Anda (bisa diganti sesuai email Anda)
         isAdmin = currentUser.email.includes('admin'); // Misal: admin@abhipraya.com
@@ -35,15 +29,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnLogout = document.getElementById('btn-logout');
 
     if (btnLogout) {
-        btnLogout.addEventListener('click', async () => {
-            await supabaseClient.auth.signOut();
-            window.location.href = 'login.html';
-        });
+        if (!session) {
+            btnLogout.innerText = 'Login Admin';
+            btnLogout.style.color = 'var(--primary)';
+            btnLogout.style.borderColor = 'var(--primary)';
+            btnLogout.addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+        } else {
+            btnLogout.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.reload();
+            });
+        }
     }
 
     if (tableContainer) {
         if (welcomeMsg) {
-            welcomeMsg.innerText = `Selamat datang, ${currentUser.email}`;
+            if (session) {
+                welcomeMsg.innerText = `Selamat datang, ${currentUser.email}`;
+            } else {
+                welcomeMsg.innerText = 'Lihat koleksi karya undangan digital kami.';
+            }
         }
         
         if (isAdmin) {
@@ -60,8 +67,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .select('id, cover_groom_bride_name, theme_id, akad_date, user_id')
                 .order('id', { ascending: false });
 
-            // Filter data untuk klien biasa
-            if (!isAdmin) {
+            // Jika user login tapi BUKAN admin, filter hanya miliknya
+            if (session && !isAdmin) {
                 query = query.eq('user_id', currentUser.id);
             }
 
@@ -82,6 +89,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     const inviteUrl = `${window.location.origin}/?id=${inv.id}`;
                     
+                    let deleteBtnHTML = '';
+                    if (isAdmin) {
+                        deleteBtnHTML = `<button onclick="deleteInvitation('${inv.id}')" class="btn btn-danger">Hapus</button>`;
+                    }
+                    
                     row.innerHTML = `
                         <td><strong>#${inv.id.substring(0,6)}...</strong></td>
                         <td>${inv.cover_groom_bride_name}</td>
@@ -89,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <td>${inv.akad_date}</td>
                         <td class="action-links">
                             <a href="${inviteUrl}" target="_blank" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">Buka</a>
-                            <button onclick="deleteInvitation('${inv.id}')" class="btn btn-danger">Hapus</button>
+                            ${deleteBtnHTML}
                         </td>
                     `;
                     invitationList.appendChild(row);
@@ -194,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     gallery_images: galleryUrls.join(','), // comma separated urls
                     love_story: document.getElementById('love_story').value,
                     bank_accounts: document.getElementById('bank_accounts').value,
-                    user_id: currentUser.id
+                    user_id: currentUser ? currentUser.id : null
                 };
 
                 const { error } = await supabaseClient
