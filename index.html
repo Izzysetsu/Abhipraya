@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Wedding Of</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <title>The Wedding Of - Digital Invitation</title>
+    <!-- Fonts for all 4 themes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Outfit:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,181 +40,214 @@
             <div class="spinner"></div>
         </div>
 
-        <!-- COVER PAGE (Sistem Buka Undangan) -->
-    <section id="cover-page">
-        <img id="bg-visual" src="assets/cover_bg.png" alt="Background Cover">
-        <div class="cover-content">
-            <h2 class="pre-title">The Wedding Of</h2>
-            <h1 id="nama-pasangan-cover">Romeo & Juliet</h1>
-            <p class="cover-date">24 . 10 . 2026</p>
-            <button id="btn-open">Buka Undangan</button>
+        <!-- MARQUEE TICKER BANNER (Monochrome Special) -->
+        <div id="theme-ticker" class="ticker-wrapper" style="display: none;">
+            <div class="ticker-content">
+                <span>SAVE THE DATE • <span class="couple-ticker">ROMEO & JULIET</span> • 24 OKTOBER 2026 • </span>
+                <span>SAVE THE DATE • <span class="couple-ticker">ROMEO & JULIET</span> • 24 OKTOBER 2026 • </span>
+            </div>
         </div>
-    </section>
 
-    <!-- MAIN INVITATION CONTENT (Hidden initially) -->
-    <main id="main-content">
-        
-        <!-- SECTION 2: THE OPENING -->
-        <section id="opening" class="section">
-            <blockquote id="teks-kutipan">
-                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
-            </blockquote>
-        </section>
-
-        <!-- SECTION 3: THE COUPLE -->
-        <section id="couple" class="section">
-            <div class="profile-wrapper">
-                <div class="profile">
-                    <img id="foto-pria" src="assets/groom_avatar.png" alt="Groom">
-                    <h3>Romeo Montague</h3>
-                    <p>Putra dari Bapak X & Ibu Y</p>
-                </div>
-                <div class="separator-ornament">&</div>
-                <div class="profile">
-                    <img id="foto-wanita" src="assets/bride_avatar.png" alt="Bride">
-                    <h3>Juliet Capulet</h3>
-                    <p>Putri dari Bapak A & Ibu B</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: EVENTS -->
-        <section id="events" class="section fade-up">
-            <h2 class="section-title">Jadwal Acara</h2>
+        <!-- COVER PAGE (Sistem Buka Undangan) -->
+        <section id="cover-page">
+            <img id="bg-visual" src="assets/bg_sage.png" alt="Background Cover">
+            <div class="cover-overlay"></div>
             
-            <div class="event-grid">
-                <div class="event-card fade-up delay-100">
-                    <h3>Akad / Pemberkatan</h3>
-                    <p class="event-date">Sabtu, 14 Februari 2024</p>
-                    <p class="event-time">08.00 - 10.00 WIB</p>
-                    <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
-                    
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        Simpan ke Kalender
-                    </a>
-                </div>
-
-                <div class="event-card fade-up delay-200">
-                    <h3>Resepsi Pernikahan</h3>
-                    <p class="event-date">Sabtu, 14 Februari 2024</p>
-                    <p class="event-time">11.00 - Selesai</p>
-                    <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
-                    
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        Simpan ke Kalender
-                    </a>
-                </div>
-            </div>
-            <a id="btn-maps" href="#" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                </svg>
-                Buka Google Maps
-            </a>
-        </section>
-
-        <!-- SECTION 4.5: COUNTDOWN -->
-        <section id="countdown" class="section fade-up delay-100">
-            <h2 class="section-title">Menuju Hari Bahagia</h2>
-            <div class="timer-grid" id="timer">
-                <div class="time-box">
-                    <span id="days">00</span>
-                    <p>Hari</p>
-                </div>
-                <div class="time-box">
-                    <span id="hours">00</span>
-                    <p>Jam</p>
-                </div>
-                <div class="time-box">
-                    <span id="minutes">00</span>
-                    <p>Menit</p>
-                </div>
-                <div class="time-box">
-                    <span id="seconds">00</span>
-                    <p>Detik</p>
+            <!-- ENVELOPE DECORATION (Blush Rose Special) -->
+            <div class="envelope-container">
+                <div class="envelope-flap"></div>
+                <div class="envelope-seal">⚘</div>
+                <div class="cover-content">
+                    <div class="cover-badge">SPECIAL INVITATION</div>
+                    <h2 class="pre-title">The Wedding Of</h2>
+                    <h1 id="nama-pasangan-cover">Romeo & Juliet</h1>
+                    <p class="cover-date">24 . 10 . 2026</p>
+                    <p class="guest-greeting">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+                    <button id="btn-open">
+                        <span class="btn-icon">✉</span> Buka Undangan
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4.6: LOVE STORY -->
-        <section id="love-story" class="section">
-            <h2 class="section-title">Kisah Cinta Kami</h2>
-            <div class="story-timeline" id="story-container">
-                <!-- Diisi oleh JS -->
-            </div>
-        </section>
+        <!-- MAIN INVITATION CONTENT -->
+        <main id="main-content">
+            
+            <!-- SECTION 2: THE OPENING -->
+            <section id="opening" class="section">
+                <div class="section-decor top-leaf"></div>
+                <div class="opening-card">
+                    <div class="ornament-divider">✦</div>
+                    <blockquote id="teks-kutipan">
+                        "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                    </blockquote>
+                    <p class="quote-author">- Q.S. Ar-Rum: 21 -</p>
+                </div>
+            </section>
 
-        <!-- SECTION 5: GALLERY PRE-WEDDING -->
-        <section id="gallery" class="section fade-up" style="display: none;">
-            <h2 class="section-title">Galeri Pre-Wedding</h2>
-            <div class="gallery-grid" id="gallery-container">
-                <!-- Foto akan di-render di sini oleh JavaScript -->
-            </div>
-        </section>
-
-        <!-- SECTION 5.5: WEDDING GIFT / AMPLOP DIGITAL -->
-        <section id="wedding-gift" class="section">
-            <h2 class="section-title">Amplop Digital</h2>
-            <p style="text-align:center; max-width:600px; margin-bottom: 2rem; color: var(--color-text-light);">
-                Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda bermaksud memberikan tanda kasih, Anda dapat mengirimkannya melalui:
-            </p>
-            <div class="bank-grid" id="bank-container">
-                <!-- Diisi oleh JS -->
-            </div>
-        </section>
-
-        <!-- SECTION 6: RSVP & WISHES -->
-        <section id="rsvp-wishes" class="section">
-            <h2 class="section-title">Kehadiran & Ucapan</h2>
-            <div class="rsvp-container">
-                <form id="rsvp-form">
-                    <input type="text" id="guest-name" placeholder="Nama Anda" required>
-                    <select id="guest-attendance" required>
-                        <option value="" disabled selected>Pilih Kehadiran</option>
-                        <option value="hadir">Hadir</option>
-                        <option value="tidak-hadir">Maaf, Tidak Bisa Hadir</option>
-                    </select>
-                    <textarea id="guest-wish" rows="4" placeholder="Tulis ucapan & doa..." required></textarea>
-                    <button type="submit" class="btn-submit">Kirim Pesan</button>
-                </form>
-
-                <div class="wishes-list" id="wishes-container">
-                    <!-- Placeholder messages -->
-                    <div class="wish-item">
-                        <h4>John Doe</h4>
-                        <span class="badge hadir">Hadir</span>
-                        <p>Selamat menempuh hidup baru! Semoga samawa.</p>
+            <!-- SECTION 3: THE COUPLE -->
+            <section id="couple" class="section">
+                <h2 class="section-title">Mempelai Mempelai</h2>
+                <p class="section-subtitle">Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Anda pada pernikahan kami:</p>
+                
+                <div class="profile-wrapper">
+                    <div class="profile">
+                        <div class="profile-img-frame">
+                            <img id="foto-pria" src="assets/groom_avatar.png" alt="Groom">
+                        </div>
+                        <h3>Romeo Montague</h3>
+                        <p class="parent-text">Putra dari Bapak X & Ibu Y</p>
                     </div>
-                    <div class="wish-item">
-                        <h4>Jane Smith</h4>
-                        <span class="badge tidak-hadir">Tidak Hadir</span>
-                        <p>Maaf belum bisa hadir, doa terbaik untuk kalian berdua.</p>
+                    <div class="separator-ornament">&</div>
+                    <div class="profile">
+                        <div class="profile-img-frame">
+                            <img id="foto-wanita" src="assets/bride_avatar.png" alt="Bride">
+                        </div>
+                        <h3>Juliet Capulet</h3>
+                        <p class="parent-text">Putri dari Bapak A & Ibu B</p>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <footer>
-            <p>Created with Love by Abhipraya</p>
-        </footer>
-    </main>
+            </section>
 
-    <!-- AUDIO ELEMENT & FAB -->
-    <audio id="bg-music" loop>
-        <source src="assets/wedding_song.mp3" type="audio/mpeg">
-    </audio>
-    <div id="fab-music" class="fab-music" onclick="toggleMusic()" style="display: none;">
-        <!-- SVG Icon Music (Note) -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-    </div>
+            <!-- SECTION 4.5: COUNTDOWN -->
+            <section id="countdown" class="section fade-up">
+                <h2 class="section-title">Menuju Hari Bahagia</h2>
+                <div class="timer-grid" id="timer">
+                    <div class="time-box">
+                        <span id="days">00</span>
+                        <p>Hari</p>
+                    </div>
+                    <div class="time-box">
+                        <span id="hours">00</span>
+                        <p>Jam</p>
+                    </div>
+                    <div class="time-box">
+                        <span id="minutes">00</span>
+                        <p>Menit</p>
+                    </div>
+                    <div class="time-box">
+                        <span id="seconds">00</span>
+                        <p>Detik</p>
+                    </div>
+                </div>
+            </section>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast">Berhasil disalin!</div>
+            <!-- SECTION 4: EVENTS -->
+            <section id="events" class="section fade-up">
+                <h2 class="section-title">Jadwal Acara</h2>
+                
+                <div class="event-grid">
+                    <div class="event-card fade-up delay-100">
+                        <div class="card-badge">AKAD</div>
+                        <h3>Akad Nikah</h3>
+                        <p class="event-date">Sabtu, 24 Oktober 2026</p>
+                        <p class="event-time">08.00 - 10.00 WIB</p>
+                        <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
+                        
+                        <button onclick="saveToCalendar('Akad Nikah Romeo & Juliet', '2026-10-24T08:00:00', 'Gedung Sudirman')" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            Simpan ke Kalender
+                        </button>
+                    </div>
+
+                    <div class="event-card fade-up delay-200">
+                        <div class="card-badge">RESEPSI</div>
+                        <h3>Resepsi Pernikahan</h3>
+                        <p class="event-date">Sabtu, 24 Oktober 2026</p>
+                        <p class="event-time">11.00 - Selesai</p>
+                        <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
+                        
+                        <button onclick="saveToCalendar('Resepsi Pernikahan Romeo & Juliet', '2026-10-24T11:00:00', 'Gedung Sudirman')" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            Simpan ke Kalender
+                        </button>
+                    </div>
+                </div>
+                
+                <a id="btn-maps" href="https://maps.google.com" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                    </svg>
+                    Buka Petak Lokasi (Google Maps)
+                </a>
+            </section>
+
+            <!-- SECTION 4.6: LOVE STORY -->
+            <section id="love-story" class="section">
+                <h2 class="section-title">Kisah Cinta Kami</h2>
+                <div class="story-timeline" id="story-container">
+                    <!-- Diisi oleh JS -->
+                </div>
+            </section>
+
+            <!-- SECTION 5: GALLERY PRE-WEDDING -->
+            <section id="gallery" class="section fade-up">
+                <h2 class="section-title">Galeri Pre-Wedding</h2>
+                <div class="gallery-grid" id="gallery-container">
+                    <!-- Foto akan di-render di sini oleh JavaScript -->
+                </div>
+            </section>
+
+            <!-- SECTION 5.5: WEDDING GIFT / AMPLOP DIGITAL -->
+            <section id="wedding-gift" class="section">
+                <h2 class="section-title">Amplop Digital</h2>
+                <p class="gift-description">
+                    Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda bermaksud memberikan tanda kasih, Anda dapat mengirimkannya melalui:
+                </p>
+                <div class="bank-grid" id="bank-container">
+                    <!-- Diisi oleh JS -->
+                </div>
+            </section>
+
+            <!-- SECTION 6: RSVP & WISHES -->
+            <section id="rsvp-wishes" class="section">
+                <h2 class="section-title">Kehadiran & Ucapan</h2>
+                <div class="rsvp-container">
+                    <form id="rsvp-form">
+                        <div class="form-title">Konfirmasi Kehadiran</div>
+                        <input type="text" id="guest-name" placeholder="Nama Anda" required>
+                        <select id="guest-attendance" required>
+                            <option value="" disabled selected>Pilih Kehadiran</option>
+                            <option value="Hadir">Hadir</option>
+                            <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+                        </select>
+                        <textarea id="guest-wish" rows="4" placeholder="Tuliskan ucapan & doa Anda..." required></textarea>
+                        <button type="submit" class="btn-submit">Kirim Pesan & Ucapan</button>
+                    </form>
+
+                    <div class="wishes-list" id="wishes-container">
+                        <!-- Messages dynamically added -->
+                    </div>
+                </div>
+            </section>
+            
+            <footer>
+                <p class="footer-names">Romeo & Juliet</p>
+                <p class="footer-thanks">Terima Kasih Atas Doa & Restu Anda</p>
+                <p class="footer-credit">Created with ❤ by Abhipraya</p>
+            </footer>
+        </main>
+
+        <!-- LIGHTBOX MODAL FOR GALLERY -->
+        <div id="lightbox-modal" class="modal" onclick="closeLightbox()">
+            <span class="lightbox-close">&times;</span>
+            <img id="lightbox-img" src="" alt="Full preview image">
+        </div>
+
+        <!-- AUDIO ELEMENT & FAB MUSIC PLAYER -->
+        <audio id="bg-music" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-acoustic-guitar-113576.mp3" type="audio/mpeg">
+        </audio>
+        <div id="fab-music" class="fab-music" onclick="toggleMusic()" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        </div>
+
+        <!-- TOAST NOTIFICATION -->
+        <div id="toast">Berhasil disalin!</div>
     
     </div> <!-- END INVITATION APP -->
 
     <script src="script.js"></script>
 </body>
 </html>
+

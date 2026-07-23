@@ -180,13 +180,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const brideName = document.getElementById('bride_name').value;
                 const akadDate = document.getElementById('akad_date').value;
 
+                const themeId = document.getElementById('theme_id').value;
+                const themeCoverImages = {
+                    'sage_earth': 'assets/sage_preview.png',
+                    'ocean_blue': 'assets/ocean_preview.png',
+                    'blush_rose': 'assets/blush_preview.png',
+                    'monochrome': 'assets/mono_preview.png'
+                };
+
                 const newInvitation = {
                     id: id,
-                    theme_id: document.getElementById('theme_id').value,
+                    theme_id: themeId,
                     cover_title: 'The Wedding Of',
                     cover_groom_bride_name: `${groomName} & ${brideName}`,
                     cover_date_text: akadDate.split(',')[0] || akadDate,
-                    cover_bg_image: 'assets/cover_bg.png', 
+                    cover_bg_image: themeCoverImages[themeId] || 'assets/cover_bg.png', 
                     opening_quote: '"Cinta tidak berupa tatapan satu sama lain, tetapi memandang keluar bersama ke arah yang sama."',
                     groom_name: groomName,
                     groom_parent: document.getElementById('groom_parent').value,

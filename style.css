@@ -155,17 +155,19 @@ body {
 
 /* SECTION 1: COVER */
 #cover-page {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1.2s ease-in-out;
+    background-color: #2E3B27;
+    transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1s ease-in-out;
+    overflow: hidden;
 }
 
 #bg-visual {
@@ -175,72 +177,111 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.65);
+    z-index: 0;
+    filter: brightness(0.7);
+}
+
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%);
+    z-index: 1;
 }
 
 .cover-content {
-    padding: 2rem;
-    color: #fff;
-    z-index: 1;
+    padding: 2rem 1.5rem;
+    color: #ffffff !important;
+    z-index: 2;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: fadeIn 2s ease-out;
+    justify-content: center;
+    width: 100%;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.cover-badge {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    padding: 4px 14px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    background: rgba(0,0,0,0.25);
+    color: #ffffff;
 }
 
 .pre-title {
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    letter-spacing: 3px;
+    font-size: 0.95rem;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    margin-bottom: 1rem;
-    font-weight: 300;
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 #nama-pasangan-cover {
     font-family: var(--font-heading);
-    font-size: 3.5rem;
-    font-weight: 600;
-    font-style: italic;
+    font-size: 3.2rem;
+    font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    color: #ffffff !important;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.6);
 }
 
 .cover-date {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    margin-bottom: 2.5rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.guest-greeting {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 1.8rem;
+    letter-spacing: 1px;
 }
 
 #btn-open {
     background-color: var(--color-primary);
-    color: #fff;
+    color: #ffffff !important;
     border: none;
-    padding: 1rem 2rem;
+    padding: 1rem 2.2rem;
     font-family: var(--font-body);
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
-    animation: pulse 2s infinite;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 #btn-open:hover {
     background-color: var(--color-primary-dark);
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
 /* MAIN CONTENT */
 #main-content {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.2s ease-in;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease-in;
 }
+
 
 .section {
     padding: 5rem 1.5rem;
@@ -527,56 +568,262 @@ body {
     margin-bottom: 1rem;
 }
 
-/* --- THEME LAYOUT VARIATIONS --- */
-/* Ocean Blue Layout */
-.theme-ocean_blue .profile-wrapper {
-    flex-direction: row-reverse;
+/* --- THEME STYLING VARIATIONS & ADVANCED EFFECTS --- */
+
+/* 1. SAGE EARTH (Botanical, Organic & Serene) */
+.theme-sage_earth {
+    --font-heading: 'Cormorant Garamond', 'Playfair Display', serif;
 }
-.theme-ocean_blue .event-card {
-    border-radius: 30px 0 30px 0;
+.theme-sage_earth .event-card, 
+.theme-sage_earth .bank-card, 
+.theme-sage_earth .rsvp-container,
+.theme-sage_earth .opening-card {
+    border-radius: 24px;
+    border: 1px solid rgba(133, 150, 119, 0.2);
+    border-top: 4px solid var(--color-primary);
+    box-shadow: 0 10px 30px rgba(133, 150, 119, 0.12);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
 }
-.theme-ocean_blue .profile img {
-    border-radius: 30%;
+.theme-sage_earth .profile img {
+    border-radius: 50%;
+    border: 4px solid var(--color-primary);
+    box-shadow: 0 8px 25px rgba(133, 150, 119, 0.25);
+}
+.theme-sage_earth #btn-open,
+.theme-sage_earth .btn-submit,
+.theme-sage_earth #btn-maps {
+    border-radius: 30px;
+    background: linear-gradient(135deg, #859677, #6C7A60);
+    box-shadow: 0 6px 20px rgba(108, 122, 96, 0.3);
 }
 
-/* Blush Rose Layout */
-.theme-blush_rose .profile img {
-    border-radius: 100px 100px 0 0; /* Arch shape */
+/* 2. OCEAN BLUE (Modern Coastal, Fluid Waves & Dynamic Cyan) */
+.theme-ocean_blue {
+    --font-heading: 'Cinzel', 'Outfit', sans-serif;
+    background-color: #F0F7FF;
 }
-.theme-blush_rose .event-card {
-    border: 1px solid var(--color-primary);
-    background: transparent;
+.theme-ocean_blue .cover-content {
+    background: rgba(15, 23, 42, 0.45);
+    padding: 3rem 2rem;
+    border-radius: 30px;
+    border: 1px solid rgba(186, 230, 253, 0.3);
+    backdrop-filter: blur(8px);
 }
-.theme-blush_rose .section-title {
+.theme-ocean_blue .section-title {
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 2px;
     position: relative;
     display: inline-block;
+    color: #0369A1;
+}
+.theme-ocean_blue .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #0284C7, #38BDF8);
+    margin: 8px auto 0;
+    border-radius: 10px;
+}
+.theme-ocean_blue .profile img {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    border: 4px solid #0284C7;
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.25);
+}
+.theme-ocean_blue .event-card {
+    border-radius: 35px 10px 35px 10px !important;
+    border-left: 6px solid #0284C7;
+    border-top: none;
+    background: #FFFFFF;
+    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.08);
+}
+.theme-ocean_blue .time-box {
+    border-radius: 20px 5px 20px 5px;
+    background: linear-gradient(135deg, #0284C7, #0369A1);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
+}
+.theme-ocean_blue .bank-card {
+    border-radius: 25px 5px 25px 5px;
+    border-bottom: 4px solid #0284C7;
+}
+.theme-ocean_blue #btn-open,
+.theme-ocean_blue .btn-submit,
+.theme-ocean_blue #btn-maps {
+    border-radius: 25px 5px 25px 5px;
+    background: linear-gradient(135deg, #0284C7, #0369A1);
+    color: #fff;
+}
+
+/* 3. BLUSH ROSE (Royal Luxury Romance & Unfolding Envelope) */
+.theme-blush_rose {
+    --font-heading: 'Great Vibes', 'Playfair Display', serif;
+}
+.theme-blush_rose #nama-pasangan-cover {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4.5rem;
+    color: #FFF1F2;
+    text-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+}
+.theme-blush_rose .section-title {
+    color: #E11D48;
+    font-size: 3rem;
 }
 .theme-blush_rose .section-title::after {
-    content: '⚘';
+    content: ' ⚘';
     display: block;
-    font-size: 1.5rem;
-    margin-top: 10px;
+    font-size: 1.6rem;
+    color: #F43F5E;
+    margin-top: 4px;
+}
+.theme-blush_rose .profile img {
+    border-radius: 120px 120px 15px 15px !important; /* Roman Arch Domed Photo Frame */
+    width: 180px;
+    height: 230px;
+    object-fit: cover;
+    border: 4px solid #FBCFE8;
+    padding: 4px;
+    box-shadow: 0 12px 30px rgba(244, 63, 94, 0.2);
+}
+.theme-blush_rose .event-card {
+    border-radius: 60px 60px 20px 20px;
+    border: 2px solid #FBCFE8;
+    border-top: 5px solid #F43F5E;
+    background: #FFFFFF;
+    box-shadow: 0 8px 25px rgba(244, 63, 94, 0.08);
+}
+.theme-blush_rose .time-box {
+    border-radius: 40px 40px 10px 10px;
+    background: linear-gradient(135deg, #F43F5E, #E11D48);
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.3);
+}
+.theme-blush_rose .bank-card, 
+.theme-blush_rose .rsvp-container {
+    border-radius: 30px;
+    border: 2px solid #FBCFE8;
+}
+.theme-blush_rose #btn-open,
+.theme-blush_rose .btn-submit,
+.theme-blush_rose #btn-maps {
+    border-radius: 30px;
+    background: linear-gradient(135deg, #F43F5E, #E11D48);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.3);
 }
 
-/* Monochrome Layout (Brutalist) */
+/* ENVELOPE UNSEAL ANIMATION FOR BLUSH ROSE COVER */
+.theme-blush_rose .envelope-seal {
+    width: 50px;
+    height: 50px;
+    background: #D4AF37;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: pulse 2s infinite;
+}
+
+/* 4. MONOCHROME (High-Fashion Brutalist Editorial) */
+.theme-monochrome {
+    --font-heading: 'Syne', 'Outfit', sans-serif;
+    background-color: #F4F4F5;
+}
 .theme-monochrome * {
-    border-radius: 0 !important;
+    border-radius: 0px !important; /* Everything is square/kotak */
 }
-.theme-monochrome .event-card {
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0 #000;
-}
-.theme-monochrome .time-box {
-    border: 3px solid #000;
-    box-shadow: 5px 5px 0 #000;
+.theme-monochrome .section-title {
+    font-style: normal;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #000;
+    border-bottom: 4px solid #000;
+    padding-bottom: 10px;
+    display: inline-block;
 }
 .theme-monochrome .profile img {
+    border: 4px solid #000 !important;
+    box-shadow: 8px 8px 0px #000 !important;
     filter: grayscale(100%);
-    border: 3px solid #000;
-    box-shadow: 10px 10px 0 #000;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    width: 190px;
+    height: 190px;
+}
+.theme-monochrome .profile img:hover {
+    filter: grayscale(0%);
+}
+.theme-monochrome .event-card,
+.theme-monochrome .bank-card,
+.theme-monochrome .rsvp-container,
+.theme-monochrome .opening-card {
+    border: 4px solid #000 !important;
+    box-shadow: 8px 8px 0px #000 !important;
+    background: #FFFFFF;
+}
+.theme-monochrome .time-box {
+    border: 3px solid #000 !important;
+    box-shadow: 5px 5px 0px #000 !important;
+    background: #000000;
+    color: #FFFFFF;
+}
+.theme-monochrome .time-box span {
+    color: #FFFFFF;
+}
+.theme-monochrome #btn-open,
+.theme-monochrome .btn-submit,
+.theme-monochrome #btn-maps,
+.theme-monochrome .btn-outline {
+    background: #000000 !important;
+    color: #FFFFFF !important;
+    border: 3px solid #000000 !important;
+    box-shadow: 5px 5px 0px #000000 !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.theme-monochrome #btn-open:hover,
+.theme-monochrome .btn-submit:hover,
+.theme-monochrome #btn-maps:hover,
+.theme-monochrome .btn-outline:hover {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0px #000000 !important;
+}
+.theme-monochrome .wish-item {
+    border: 3px solid #000 !important;
+    border-left: 8px solid #000 !important;
+    box-shadow: 4px 4px 0px #000 !important;
 }
 
-/* SECTION 6: RSVP */
+/* MARQUEE TICKER BANNER (MONOCHROME SPECIAL) */
+.ticker-wrapper {
+    background: #000000;
+    color: #FFFFFF;
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 3px solid #000000;
+}
+.ticker-content {
+    display: inline-block;
+    animation: marquee 15s linear infinite;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* SECTION 6: RSVP & WISHES ENHANCEMENTS */
 #rsvp-wishes {
     background-color: var(--color-bg-secondary);
 }
@@ -598,6 +845,14 @@ body {
     border-bottom: 1px solid var(--color-accent);
 }
 
+.form-title {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
 input, select, textarea {
     width: 100%;
     padding: 1rem;
@@ -613,7 +868,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(133, 150, 119, 0.1);
+    box-shadow: 0 0 0 3px rgba(133, 150, 119, 0.15);
 }
 
 .btn-submit {
@@ -623,10 +878,10 @@ input:focus, select:focus, textarea:focus {
     padding: 1rem;
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     margin-top: 0.5rem;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn-submit:hover {
@@ -642,41 +897,32 @@ input:focus, select:focus, textarea:focus {
     gap: 1.2rem;
 }
 
-/* Scrollbar for wishes */
-.wishes-list::-webkit-scrollbar {
-    width: 6px;
-}
-.wishes-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-.wishes-list::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 10px;
-}
-
 .wish-item {
     background-color: var(--color-bg-primary);
     padding: 1.2rem;
-    border-radius: 8px;
+    border-radius: 12px;
     position: relative;
     border-left: 4px solid var(--color-primary);
+}
+
+.wish-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .wish-item h4 {
     font-size: 1rem;
     color: var(--color-text-main);
-    margin-bottom: 0.3rem;
     font-weight: 600;
 }
 
 .wish-item .badge {
-    position: absolute;
-    top: 1.2rem;
-    right: 1.2rem;
     font-size: 0.75rem;
-    padding: 0.2rem 0.6rem;
+    padding: 0.25rem 0.7rem;
     border-radius: 20px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .badge.hadir {
@@ -691,18 +937,60 @@ input:focus, select:focus, textarea:focus {
 
 .wish-item p {
     font-size: 0.95rem;
-    color: var(--color-text-light);
-    margin-top: 0.8rem;
+    color: var(--color-text-main);
     line-height: 1.5;
+}
+
+/* LIGHTBOX MODAL */
+#lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+#lightbox-img {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    object-fit: contain;
+}
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #FFF;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 footer {
     text-align: center;
-    padding: 2.5rem;
+    padding: 3rem 1.5rem;
     background-color: var(--color-text-main);
     color: #fff;
-    font-size: 0.85rem;
-    font-weight: 300;
+}
+.footer-names {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+.footer-thanks {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+.footer-credit {
+    font-size: 0.8rem;
+    opacity: 0.5;
 }
 
 /* ANIMATIONS */
@@ -767,8 +1055,7 @@ footer {
 .fab-music {
     position: fixed;
     bottom: 20px;
-    right: 20px; /* Di luar atau di dalam frame 480px? Karena #invitation-app relative, kita bisa set position absolute di dalam app, tapi fixed lebih bagus untuk layar penuh. */
-    /* Untuk membuatnya menempel di pinggir frame 480px: */
+    right: 20px;
     width: 50px;
     height: 50px;
     background-color: var(--color-primary);
@@ -777,7 +1064,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
     cursor: pointer;
     z-index: 999;
     transition: transform 0.3s;
@@ -793,31 +1080,29 @@ footer {
 .spin {
     animation: spin 3s linear infinite;
 }
-@keyframes spin {
-    100% { transform: rotate(360deg); }
-}
 
 /* ================== TOAST NOTIFICATION ================== */
 #toast {
     visibility: hidden;
-    min-width: 200px;
-    background-color: #333;
+    min-width: 220px;
+    background-color: #222;
     color: #fff;
     text-align: center;
     border-radius: 30px;
-    padding: 12px 20px;
+    padding: 12px 24px;
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
-    font-size: 0.9rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-size: 0.95rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     opacity: 0;
-    transition: opacity 0.5s, bottom 0.5s;
+    transition: opacity 0.4s, bottom 0.4s;
 }
 #toast.show {
     visibility: visible;
     opacity: 1;
     bottom: 50px;
 }
+
