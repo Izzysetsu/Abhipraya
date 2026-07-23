@@ -211,15 +211,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                     resepsi_time: document.getElementById('resepsi_time').value,
                     resepsi_location: document.getElementById('resepsi_location').value,
                     map_url: document.getElementById('map_url').value,
-                    gallery_images: galleryUrls.join(','), // comma separated urls
-                    love_story: document.getElementById('love_story').value,
-                    bank_accounts: document.getElementById('bank_accounts').value,
+                    gallery_images: galleryUrls.join(','),
                     user_id: currentUser ? currentUser.id : null
                 };
 
-                const { error } = await supabaseClient
+                const loveStoryVal = document.getElementById('love_story').value;
+                if (loveStoryVal) newInvitation.love_story = loveStoryVal;
+
+                const bankAccountsVal = document.getElementById('bank_accounts').value;
+                if (bankAccountsVal) newInvitation.bank_accounts = bankAccountsVal;
+
+                let { error } = await supabaseClient
                     .from('invitations')
                     .insert([newInvitation]);
+
+                // Graceful Fallback jika kolom bank_accounts atau love_story belum ada di tabel Supabase
+                if (error && error.message.includes('bank_accounts')) {
+                    delete newInvitation.bank_accounts;
+                    const retry = await supabaseClient.from('invitations').insert([newInvitation]);
+                    error = retry.error;
+                }
+                if (error && error.message.includes('love_story')) {
+                    delete newInvitation.love_story;
+                    const retry = await supabaseClient.from('invitations').insert([newInvitation]);
+                    error = retry.error;
+                }
 
                 if (error) throw error;
 
@@ -234,3 +250,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 });
+
