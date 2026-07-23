@@ -468,13 +468,49 @@ window.toggleThemeMenu = function() {
     if (menu) menu.classList.toggle('active');
 };
 
-// Global Function untuk Ganti Warna Tema secara Instant (Tanpa Mengubah Desain/Layout)
+// Global Function untuk Ganti Warna Tema secara Instant (Harmonis & Match 100%)
 window.switchColorPalette = function(paletteKey) {
     const palettes = {
-        'sage': { primary: '#859677', primaryDark: '#6C7A60', bg: '#F4F1EA', bgSec: '#E9E4DA', accent: '#D8CDB9', text: '#38342E', name: 'Hijau Sage 🌿' },
-        'ocean': { primary: '#0284C7', primaryDark: '#0369A1', bg: '#F0F7FF', bgSec: '#E0F2FE', accent: '#BAE6FD', text: '#0F172A', name: 'Biru Laut 🌊' },
-        'blush': { primary: '#F43F5E', primaryDark: '#E11D48', bg: '#FFF5F7', bgSec: '#FCE7F3', accent: '#FBCFE8', text: '#4C1D24', name: 'Merah Mawar 🌹' },
-        'dark': { primary: '#D4AF37', primaryDark: '#AA820A', bg: '#18181B', bgSec: '#27272A', accent: '#3F3F46', text: '#FFFFFF', name: 'Hitam Emas 🖤' }
+        'sage': {
+            primary: '#5C7052',
+            primaryDark: '#42523A',
+            bg: '#F4F1EA',
+            bgSec: '#E8E3D7',
+            accent: '#C5BCA8',
+            text: '#2C3328',
+            cardBg: '#FFFFFF',
+            name: 'Hijau Sage 🌿'
+        },
+        'ocean': {
+            primary: '#0284C7',
+            primaryDark: '#0369A1',
+            bg: '#F0F7FF',
+            bgSec: '#E0F2FE',
+            accent: '#BAE6FD',
+            text: '#0F172A',
+            cardBg: '#FFFFFF',
+            name: 'Biru Laut 🌊'
+        },
+        'blush': {
+            primary: '#E11D48',
+            primaryDark: '#BE123C',
+            bg: '#FFF5F7',
+            bgSec: '#FCE7F3',
+            accent: '#FBCFE8',
+            text: '#4C0519',
+            cardBg: '#FFFFFF',
+            name: 'Merah Mawar 🌹'
+        },
+        'dark': {
+            primary: '#D4AF37',
+            primaryDark: '#B38F24',
+            bg: '#121212',
+            bgSec: '#1E1E22',
+            accent: '#333338',
+            text: '#F4F4F5',
+            cardBg: '#1E1E22',
+            name: 'Hitam Emas 🖤'
+        }
     };
 
     const chosen = palettes[paletteKey] || palettes['sage'];
@@ -484,6 +520,7 @@ window.switchColorPalette = function(paletteKey) {
     document.documentElement.style.setProperty('--color-bg-secondary', chosen.bgSec);
     document.documentElement.style.setProperty('--color-accent', chosen.accent);
     document.documentElement.style.setProperty('--color-text-main', chosen.text);
+    document.documentElement.style.setProperty('--color-card-bg', chosen.cardBg);
 
     // Hide theme menu popup
     const menu = document.getElementById('theme-menu');
@@ -492,11 +529,12 @@ window.switchColorPalette = function(paletteKey) {
     // Toast feedback
     const toast = document.getElementById('toast');
     if (toast) {
-        toast.innerText = 'Warna Tema Diubah ke: ' + chosen.name;
+        toast.innerText = 'Kombinasi Warna Diubah: ' + chosen.name;
         toast.className = 'show';
         setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 2500);
     }
 };
+
 
 
 
