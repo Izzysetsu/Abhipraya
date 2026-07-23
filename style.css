@@ -577,7 +577,9 @@ body {
 .swatch.sage { background: linear-gradient(135deg, #859677, #6C7A60); }
 .swatch.ocean { background: linear-gradient(135deg, #0284C7, #0369A1); }
 .swatch.blush { background: linear-gradient(135deg, #F43F5E, #E11D48); }
+.swatch.dark { background: linear-gradient(135deg, #D4AF37, #18181B); }
 .swatch.mono { background: linear-gradient(135deg, #18181B, #000000); }
+
 
 
 #btn-maps {

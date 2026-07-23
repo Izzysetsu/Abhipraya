@@ -40,21 +40,22 @@
             <div class="spinner"></div>
         </div>
 
-        <!-- FLOATING THEME / COLOR SWITCHER WIDGET -->
+        <!-- FLOATING COLOR PALETTE SWITCHER WIDGET -->
         <div id="theme-switcher-widget" class="theme-switcher">
-            <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Ganti Warna & Tema">
+            <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Ubah Warna Tema">
                 <span class="palette-icon">🎨</span>
             </button>
             <div class="theme-menu" id="theme-menu">
-                <div class="theme-menu-title">Pilih Warna & Tema</div>
+                <div class="theme-menu-title">Pilih Warna Tema</div>
                 <div class="theme-swatches">
-                    <button class="swatch sage" onclick="switchTheme('sage_earth')" title="Sage Earth"></button>
-                    <button class="swatch ocean" onclick="switchTheme('ocean_blue')" title="Ocean Blue"></button>
-                    <button class="swatch blush" onclick="switchTheme('blush_rose')" title="Blush Rose"></button>
-                    <button class="swatch mono" onclick="switchTheme('monochrome')" title="Monochrome"></button>
+                    <button class="swatch sage" onclick="switchColorPalette('sage')" title="Hijau Sage"></button>
+                    <button class="swatch ocean" onclick="switchColorPalette('ocean')" title="Biru Laut"></button>
+                    <button class="swatch blush" onclick="switchColorPalette('blush')" title="Merah Mawar"></button>
+                    <button class="swatch dark" onclick="switchColorPalette('dark')" title="Hitam Emas"></button>
                 </div>
             </div>
         </div>
+
 
         <!-- MARQUEE TICKER BANNER (Monochrome Special) -->
         <div id="theme-ticker" class="ticker-wrapper" style="display: none;">
