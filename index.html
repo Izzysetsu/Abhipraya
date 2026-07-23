@@ -42,11 +42,11 @@
 
         <!-- FLOATING THEME / COLOR SWITCHER WIDGET -->
         <div id="theme-switcher-widget" class="theme-switcher">
-            <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Ganti Tema Warna">
+            <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Ganti Warna & Tema">
                 <span class="palette-icon">🎨</span>
             </button>
             <div class="theme-menu" id="theme-menu">
-                <div class="theme-menu-title">Pilih Tema & Warna</div>
+                <div class="theme-menu-title">Pilih Warna & Tema</div>
                 <div class="theme-swatches">
                     <button class="swatch sage" onclick="switchTheme('sage_earth')" title="Sage Earth"></button>
                     <button class="swatch ocean" onclick="switchTheme('ocean_blue')" title="Ocean Blue"></button>
@@ -91,7 +91,11 @@
             
             <!-- SECTION 2: THE OPENING -->
             <section id="opening" class="section">
-                <div class="section-decor top-leaf"></div>
+                <!-- SVG WAVE DIVIDER (Ocean Blue Special) -->
+                <div class="wave-top-decor" style="display: none;">
+                    <svg viewBox="0 0 1440 320" fill="currentColor"><path fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+                </div>
+                
                 <div class="opening-card">
                     <div class="ornament-divider">✦</div>
                     <blockquote id="teks-kutipan">
