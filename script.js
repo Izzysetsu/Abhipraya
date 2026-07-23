@@ -462,3 +462,49 @@ window.copyRekening = function(rek) {
     });
 };
 
+// Global Function untuk Toggle Menu Switcher Tema
+window.toggleThemeMenu = function() {
+    const menu = document.getElementById('theme-menu');
+    if (menu) menu.classList.toggle('active');
+};
+
+// Global Function untuk Ganti Warna/Tema secara Instant
+window.switchTheme = function(themeId) {
+    document.body.className = '';
+    document.body.classList.add(`theme-${themeId}`);
+
+    const themes = {
+        'sage_earth': { primary: '#859677', primaryDark: '#6C7A60', bg: '#F4F1EA', bgSec: '#E9E4DA', accent: '#D8CDB9', text: '#38342E', bgImg: 'assets/bg_sage.png' },
+        'ocean_blue': { primary: '#0284C7', primaryDark: '#0369A1', bg: '#F0F7FF', bgSec: '#E0F2FE', accent: '#BAE6FD', text: '#0F172A', bgImg: 'assets/bg_ocean.png' },
+        'blush_rose': { primary: '#F43F5E', primaryDark: '#E11D48', bg: '#FFF5F7', bgSec: '#FCE7F3', accent: '#FBCFE8', text: '#4C1D24', bgImg: 'assets/bg_blush.png' },
+        'monochrome': { primary: '#000000', primaryDark: '#18181B', bg: '#FFFFFF', bgSec: '#F4F4F5', accent: '#D4D4D8', text: '#000000', bgImg: 'assets/bg_mono.png' }
+    };
+    const activeTheme = themes[themeId] || themes['sage_earth'];
+    document.documentElement.style.setProperty('--color-primary', activeTheme.primary);
+    document.documentElement.style.setProperty('--color-primary-dark', activeTheme.primaryDark);
+    document.documentElement.style.setProperty('--color-bg-primary', activeTheme.bg);
+    document.documentElement.style.setProperty('--color-bg-secondary', activeTheme.bgSec);
+    document.documentElement.style.setProperty('--color-accent', activeTheme.accent);
+    document.documentElement.style.setProperty('--color-text-main', activeTheme.text);
+
+    const bgVisual = document.getElementById('bg-visual');
+    if (bgVisual) bgVisual.src = activeTheme.bgImg;
+
+    const ticker = document.getElementById('theme-ticker');
+    if (ticker) {
+        ticker.style.display = themeId === 'monochrome' ? 'block' : 'none';
+    }
+
+    const menu = document.getElementById('theme-menu');
+    if (menu) menu.classList.remove('active');
+
+    const toast = document.getElementById('toast');
+    if (toast) {
+        const themeNames = { 'sage_earth': 'Sage Earth 🌿', 'ocean_blue': 'Ocean Blue 🌊', 'blush_rose': 'Blush Rose 🌹', 'monochrome': 'Monochrome ⚪' };
+        toast.innerText = 'Tema Diubah ke: ' + (themeNames[themeId] || themeId);
+        toast.className = 'show';
+        setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 2500);
+    }
+};
+
+

@@ -40,6 +40,22 @@
             <div class="spinner"></div>
         </div>
 
+        <!-- FLOATING THEME / COLOR SWITCHER WIDGET -->
+        <div id="theme-switcher-widget" class="theme-switcher">
+            <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Ganti Tema Warna">
+                <span class="palette-icon">🎨</span>
+            </button>
+            <div class="theme-menu" id="theme-menu">
+                <div class="theme-menu-title">Pilih Tema & Warna</div>
+                <div class="theme-swatches">
+                    <button class="swatch sage" onclick="switchTheme('sage_earth')" title="Sage Earth"></button>
+                    <button class="swatch ocean" onclick="switchTheme('ocean_blue')" title="Ocean Blue"></button>
+                    <button class="swatch blush" onclick="switchTheme('blush_rose')" title="Blush Rose"></button>
+                    <button class="swatch mono" onclick="switchTheme('monochrome')" title="Monochrome"></button>
+                </div>
+            </div>
+        </div>
+
         <!-- MARQUEE TICKER BANNER (Monochrome Special) -->
         <div id="theme-ticker" class="ticker-wrapper" style="display: none;">
             <div class="ticker-content">
@@ -144,8 +160,8 @@
                         <p class="event-time">08.00 - 10.00 WIB</p>
                         <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
                         
-                        <button onclick="saveToCalendar('Akad Nikah Romeo & Juliet', '2026-10-24T08:00:00', 'Gedung Sudirman')" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <button onclick="saveToCalendar('Akad Nikah Romeo & Juliet', '2026-10-24T08:00:00', 'Gedung Sudirman')" class="btn-calendar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                             Simpan ke Kalender
                         </button>
                     </div>
@@ -157,8 +173,8 @@
                         <p class="event-time">11.00 - Selesai</p>
                         <p class="event-location">Gedung Sudirman<br>Jl. Jend. Sudirman No.1, Jakarta</p>
                         
-                        <button onclick="saveToCalendar('Resepsi Pernikahan Romeo & Juliet', '2026-10-24T11:00:00', 'Gedung Sudirman')" class="btn btn-outline" style="margin-top: 15px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <button onclick="saveToCalendar('Resepsi Pernikahan Romeo & Juliet', '2026-10-24T11:00:00', 'Gedung Sudirman')" class="btn-calendar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                             Simpan ke Kalender
                         </button>
                     </div>
