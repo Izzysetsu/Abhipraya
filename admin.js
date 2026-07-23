@@ -195,18 +195,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const bankInput = row.querySelector('.input-bank-name');
                     const numberInput = row.querySelector('.input-bank-number');
                     const holderInput = row.querySelector('.input-bank-holder');
-                    if (bankInput && numberInput) {
+                    if (bankInput) {
                         const bank = bankInput.value.trim();
-                        const number = numberInput.value.trim();
+                        const number = numberInput ? numberInput.value.trim() : '';
                         const name = holderInput ? holderInput.value.trim() : '';
-                        if (bank && number) {
-                            bankList.push({ bank, number, name });
+                        if (bank || number) {
+                            bankList.push({ bank: bank || 'Bank', number, name, account_number: number, account_name: name });
                         }
                     }
                 });
                 if (bankList.length > 0) {
                     document.getElementById('bank_accounts').value = JSON.stringify(bankList);
                 }
+
 
                 // Automatically compile visual Story inputs to JSON
                 const storyRows = document.querySelectorAll('.story-input-row');

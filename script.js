@@ -197,28 +197,53 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
+        // Helper Robust JSON Parser
+        function parseJsonSafe(val) {
+            if (!val) return [];
+            if (Array.isArray(val)) return val;
+            if (typeof val === 'object') return [val];
+            if (typeof val === 'string') {
+                try {
+                    let parsed = JSON.parse(val);
+                    if (typeof parsed === 'string') {
+                        parsed = JSON.parse(parsed);
+                    }
+                    if (Array.isArray(parsed)) return parsed;
+                    if (typeof parsed === 'object' && parsed !== null) return [parsed];
+                } catch (e) {
+                    try {
+                        const fixed = val.replace(/'/g, '"');
+                        let parsed = JSON.parse(fixed);
+                        if (Array.isArray(parsed)) return parsed;
+                        if (typeof parsed === 'object' && parsed !== null) return [parsed];
+                    } catch (err) {}
+                }
+            }
+            return [];
+        }
+
         // --- RENDER LOVE STORY ---
         const storySection = document.getElementById('love-story');
         const storyContainer = document.getElementById('story-container');
         if (storySection) storySection.style.display = 'none';
 
         if (data.love_story) {
-            try {
-                const stories = typeof data.love_story === 'string' ? JSON.parse(data.love_story) : data.love_story;
-                if (Array.isArray(stories) && stories.length > 0) {
-                    storySection.style.display = 'flex';
-                    storyContainer.innerHTML = '';
-                    stories.forEach((st, idx) => {
-                        const delay = (idx + 1) * 100;
-                        storyContainer.innerHTML += `
-                            <div class="story-item fade-up delay-${delay > 300 ? 300 : delay}">
-                                <h3>${st.year ? st.year + ' - ' : ''}${st.title}</h3>
-                                <p>${st.description || st.text || ''}</p>
-                            </div>
-                        `;
-                    });
-                }
-            } catch(e) { console.error("Format Love Story salah", e); }
+            const stories = parseJsonSafe(data.love_story);
+            if (stories.length > 0) {
+                storySection.style.display = 'flex';
+                storyContainer.innerHTML = '';
+                stories.forEach((st, idx) => {
+                    const delay = (idx + 1) * 100;
+                    const title = st.title || st.momen || st.year || 'Kisah Cinta';
+                    const text = st.description || st.text || st.cerita || '';
+                    storyContainer.innerHTML += `
+                        <div class="story-item fade-up delay-${delay > 300 ? 300 : delay}">
+                            <h3>${st.year && st.title && !st.title.includes(st.year) ? st.year + ' - ' : ''}${title}</h3>
+                            <p>${text}</p>
+                        </div>
+                    `;
+                });
+            }
         }
 
         // --- RENDER BANK ACCOUNTS (AMPLOP DIGITAL) ---
@@ -227,30 +252,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (giftSection) giftSection.style.display = 'none';
 
         if (data.bank_accounts) {
-            try {
-                const banks = typeof data.bank_accounts === 'string' ? JSON.parse(data.bank_accounts) : data.bank_accounts;
-                if (Array.isArray(banks) && banks.length > 0) {
-                    giftSection.style.display = 'flex';
-                    bankContainer.innerHTML = '';
-                    banks.forEach((b, idx) => {
-                        const delay = (idx + 1) * 100;
-                        const accNum = b.account_number || b.number || '';
-                        const accName = b.account_name || b.name || '';
-                        bankContainer.innerHTML += `
-                            <div class="bank-card fade-up delay-${delay > 300 ? 300 : delay}">
-                                <h3>${b.bank}</h3>
-                                <p class="bank-acc-num">${accNum}</p>
-                                <p class="bank-acc-name">A/N: ${accName}</p>
-                                <button onclick="copyRekening('${accNum}')" class="btn btn-outline" style="width: 100%; display:flex; justify-content:center; align-items:center; gap: 8px;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    Salin Rekening
-                                </button>
-                            </div>
-                        `;
-                    });
-                }
-            } catch(e) { console.error("Format Bank salah", e); }
+            const banks = parseJsonSafe(data.bank_accounts);
+            if (banks.length > 0) {
+                giftSection.style.display = 'flex';
+                bankContainer.innerHTML = '';
+                banks.forEach((b, idx) => {
+                    const delay = (idx + 1) * 100;
+                    const bankName = b.bank || b.bank_name || 'Bank';
+                    const accNum = b.account_number || b.number || b.no_rekening || b.rekening || '';
+                    const accName = b.account_name || b.name || b.pemilik || '';
+                    bankContainer.innerHTML += `
+                        <div class="bank-card fade-up delay-${delay > 300 ? 300 : delay}">
+                            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 0.5rem;">${bankName}</h3>
+                            <p class="bank-acc-num" style="font-size: 1.3rem; font-weight: 700; color: var(--color-primary); margin: 0.5rem 0; letter-spacing: 1px;">${accNum || '-'}</p>
+                            ${accName ? `<p class="bank-acc-name" style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 1rem;">A/N: ${accName}</p>` : ''}
+                            <button onclick="copyRekening('${accNum}')" class="btn btn-outline" style="width: 100%; display:flex; justify-content:center; align-items:center; gap: 8px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Salin Rekening
+                            </button>
+                        </div>
+                    `;
+                });
+            }
         }
+
 
 
         // --- RENDER WISHES / UCAPAN ---
