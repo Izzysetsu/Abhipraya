@@ -711,7 +711,98 @@ body {
     margin-bottom: 1rem;
 }
 
+/* --- RADICAL SECTION RE-ORDERING & UNIQUE LAYOUT FLOW PER TEMPLATE --- */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* 1. SAGE EARTH (Classic Botanical Vertical Flow) */
+.theme-sage_earth #main-content #opening { order: 1; }
+.theme-sage_earth #main-content #couple { order: 2; }
+.theme-sage_earth #main-content #countdown { order: 3; }
+.theme-sage_earth #main-content #events { order: 4; }
+.theme-sage_earth #main-content #love-story { order: 5; }
+.theme-sage_earth #main-content #gallery { order: 6; }
+.theme-sage_earth #main-content #wedding-gift { order: 7; }
+.theme-sage_earth #main-content #rsvp-wishes { order: 8; }
+
+/* 2. OCEAN BLUE (Split Hero & Modern Coastal Flow - Couple First, Events Second) */
+.theme-ocean_blue #main-content #couple { order: 1; }
+.theme-ocean_blue #main-content #events { order: 2; }
+.theme-ocean_blue #main-content #countdown { order: 3; }
+.theme-ocean_blue #main-content #gallery { order: 4; }
+.theme-ocean_blue #main-content #opening { order: 5; }
+.theme-ocean_blue #main-content #love-story { order: 6; }
+.theme-ocean_blue #main-content #wedding-gift { order: 7; }
+.theme-ocean_blue #main-content #rsvp-wishes { order: 8; }
+
+.theme-ocean_blue #couple {
+    padding-top: 5rem;
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+}
+.theme-ocean_blue .profile-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+}
+.theme-ocean_blue .event-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.theme-ocean_blue .gallery-item {
+    border-radius: 35px 5px 35px 5px !important;
+}
+
+/* 3. BLUSH ROSE (Royal Romance Magazine - Quote First, Countdown Second, Couple Spotlight Third) */
+.theme-blush_rose #main-content #opening { order: 1; }
+.theme-blush_rose #main-content #countdown { order: 2; }
+.theme-blush_rose #main-content #couple { order: 3; }
+.theme-blush_rose #main-content #gallery { order: 4; }
+.theme-blush_rose #main-content #events { order: 5; }
+.theme-blush_rose #main-content #wedding-gift { order: 6; }
+.theme-blush_rose #main-content #love-story { order: 7; }
+.theme-blush_rose #main-content #rsvp-wishes { order: 8; }
+
+.theme-blush_rose #opening {
+    padding: 6rem 2rem;
+    background: radial-gradient(circle at center, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+}
+.theme-blush_rose .gallery-item {
+    border-radius: 120px 120px 15px 15px !important;
+    border: 3px solid var(--color-accent);
+}
+
+/* 4. MONOCHROME (Editorial Matrix Grid - Matrix Countdown First, Polaroid Couple Second) */
+.theme-monochrome #main-content #countdown { order: 1; }
+.theme-monochrome #main-content #couple { order: 2; }
+.theme-monochrome #main-content #love-story { order: 3; }
+.theme-monochrome #main-content #events { order: 4; }
+.theme-monochrome #main-content #opening { order: 5; }
+.theme-monochrome #main-content #gallery { order: 6; }
+.theme-monochrome #main-content #wedding-gift { order: 7; }
+.theme-monochrome #main-content #rsvp-wishes { order: 8; }
+
+.theme-monochrome #countdown {
+    padding-top: 4rem;
+    background: var(--color-bg-primary);
+}
+.theme-monochrome .timer-grid {
+    gap: 1.5rem;
+}
+.theme-monochrome .gallery-item {
+    border: 4px solid var(--color-primary) !important;
+    box-shadow: 8px 8px 0px var(--color-primary) !important;
+    filter: grayscale(100%);
+}
+.theme-monochrome .gallery-item:hover {
+    filter: grayscale(0%);
+}
+
 /* --- THEME STYLING VARIATIONS & RADICALLY DISTINCT TEMPLATE LAYOUTS --- */
+
 
 /* 1. SAGE EARTH (Botanical Organic & Classic Serene) */
 .theme-sage_earth {
