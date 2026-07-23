@@ -88,16 +88,29 @@
                     <input type="url" id="map_url" placeholder="https://maps.google.com/..." required>
                 </div>
 
-                <div class="section-title">Kisah Cinta & Hadiah (Opsional)</div>
+                <div class="section-title">Amplop Digital & Rekening Bank (Opsional)</div>
                 <div class="form-group form-full">
-                    <label>Love Story (Format JSON)</label>
-                    <textarea id="love_story" rows="3" placeholder='[{"title":"Bertemu","text":"Di kafe..."}]'></textarea>
-                    <small style="color: #666;">Isi dengan format JSON. Kosongkan jika tidak ingin ditampilkan.</small>
+                    <div id="bank-input-list">
+                        <div class="bank-input-row" style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <input type="text" class="input-bank-name" placeholder="Nama Bank (misal: BCA, Mandiri)" style="flex: 1; min-width: 150px;">
+                            <input type="text" class="input-bank-number" placeholder="Nomor Rekening" style="flex: 1; min-width: 150px;">
+                            <input type="text" class="input-bank-holder" placeholder="Atas Nama (Pemilik)" style="flex: 1; min-width: 150px;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline" onclick="addBankRow()" style="margin-top: 5px; font-size: 0.85rem; padding: 6px 14px;">+ Tambah Rekening Lain</button>
+                    <textarea id="bank_accounts" style="display: none;"></textarea>
                 </div>
+
+                <div class="section-title">Kisah Cinta Kami (Opsional)</div>
                 <div class="form-group form-full">
-                    <label>Rekening Bank (Format JSON)</label>
-                    <textarea id="bank_accounts" rows="3" placeholder='[{"bank":"BCA","name":"Budi","number":"123"}]'></textarea>
-                    <small style="color: #666;">Isi dengan format JSON. Kosongkan jika tidak ingin ditampilkan.</small>
+                    <div id="story-input-list">
+                        <div class="story-input-row" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; padding: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px;">
+                            <input type="text" class="input-story-title" placeholder="Momen / Tahun (misal: Pertama Bertemu - 2022)">
+                            <textarea class="input-story-text" rows="2" placeholder="Ceritakan momen bahagia Anda..."></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline" onclick="addStoryRow()" style="margin-top: 5px; font-size: 0.85rem; padding: 6px 14px;">+ Tambah Momen Kisah Cinta</button>
+                    <textarea id="love_story" style="display: none;"></textarea>
                 </div>
 
                 <!-- Hidden field for theme passed from templates.html -->
@@ -122,7 +135,35 @@
             // Default jika diakses langsung
             document.getElementById('theme_id').value = 'sage_earth';
         }
+
+        // Tambah Baris Rekening Bank Baru
+        function addBankRow() {
+            const list = document.getElementById('bank-input-list');
+            const newRow = document.createElement('div');
+            newRow.className = 'bank-input-row';
+            newRow.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;';
+            newRow.innerHTML = `
+                <input type="text" class="input-bank-name" placeholder="Nama Bank (misal: BCA, Mandiri)" style="flex: 1; min-width: 150px;">
+                <input type="text" class="input-bank-number" placeholder="Nomor Rekening" style="flex: 1; min-width: 150px;">
+                <input type="text" class="input-bank-holder" placeholder="Atas Nama (Pemilik)" style="flex: 1; min-width: 150px;">
+            `;
+            list.appendChild(newRow);
+        }
+
+        // Tambah Baris Momen Kisah Cinta Baru
+        function addStoryRow() {
+            const list = document.getElementById('story-input-list');
+            const newRow = document.createElement('div');
+            newRow.className = 'story-input-row';
+            newRow.style.cssText = 'display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; padding: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px;';
+            newRow.innerHTML = `
+                <input type="text" class="input-story-title" placeholder="Momen / Tahun (misal: Lamaran - 2025)">
+                <textarea class="input-story-text" rows="2" placeholder="Ceritakan momen bahagia Anda..."></textarea>
+            `;
+            list.appendChild(newRow);
+        }
     </script>
+
     <script src="admin.js"></script>
 </body>
 </html>

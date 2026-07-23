@@ -188,6 +188,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                     'monochrome': 'assets/mono_preview.png'
                 };
 
+                // Automatically compile visual Bank Accounts inputs to JSON
+                const bankRows = document.querySelectorAll('.bank-input-row');
+                const bankList = [];
+                bankRows.forEach(row => {
+                    const bankInput = row.querySelector('.input-bank-name');
+                    const numberInput = row.querySelector('.input-bank-number');
+                    const holderInput = row.querySelector('.input-bank-holder');
+                    if (bankInput && numberInput) {
+                        const bank = bankInput.value.trim();
+                        const number = numberInput.value.trim();
+                        const name = holderInput ? holderInput.value.trim() : '';
+                        if (bank && number) {
+                            bankList.push({ bank, number, name });
+                        }
+                    }
+                });
+                if (bankList.length > 0) {
+                    document.getElementById('bank_accounts').value = JSON.stringify(bankList);
+                }
+
+                // Automatically compile visual Story inputs to JSON
+                const storyRows = document.querySelectorAll('.story-input-row');
+                const storyList = [];
+                storyRows.forEach(row => {
+                    const titleInput = row.querySelector('.input-story-title');
+                    const textInput = row.querySelector('.input-story-text');
+                    if (titleInput && textInput) {
+                        const title = titleInput.value.trim();
+                        const text = textInput.value.trim();
+                        if (title && text) {
+                            storyList.push({ title, text });
+                        }
+                    }
+                });
+                if (storyList.length > 0) {
+                    document.getElementById('love_story').value = JSON.stringify(storyList);
+                }
+
                 const newInvitation = {
                     id: id,
                     theme_id: themeId,
@@ -214,6 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     gallery_images: galleryUrls.join(','),
                     user_id: currentUser ? currentUser.id : null
                 };
+
 
                 const loveStoryVal = document.getElementById('love_story').value;
                 if (loveStoryVal) newInvitation.love_story = loveStoryVal;
