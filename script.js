@@ -130,7 +130,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // 3. Suntik Data ke DOM
-        document.getElementById('nama-pasangan-cover').innerText = data.cover_groom_bride_name || 'Romeo & Juliet';
+        const coupleNames = data.cover_groom_bride_name || (data.groom_name && data.bride_name ? `${data.groom_name} & ${data.bride_name}` : 'Romeo & Juliet');
+        document.getElementById('nama-pasangan-cover').innerText = coupleNames;
+        document.querySelectorAll('.footer-names').forEach(el => el.innerText = coupleNames);
+        document.querySelectorAll('.couple-ticker').forEach(el => el.innerText = coupleNames);
+        document.title = `The Wedding of ${coupleNames}`;
+
         document.querySelector('.pre-title').innerText = data.cover_title || 'The Wedding Of';
         document.querySelector('.cover-date').innerText = data.cover_date_text || '24 . 10 . 2026';
         document.getElementById('bg-visual').src = data.cover_bg_image || 'assets/bg_sage.png';
@@ -167,15 +172,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (btnMaps && data.map_url) btnMaps.href = data.map_url;
 
         // --- RENDER GALERI PRE-WEDDING DENGAN LIGHTBOX ---
-        if (data.gallery_images) {
-            const gallerySection = document.getElementById('gallery');
-            const galleryContainer = document.getElementById('gallery-container');
-            const imageUrls = data.gallery_images.split(',');
+        const gallerySection = document.getElementById('gallery');
+        const galleryContainer = document.getElementById('gallery-container');
+        if (gallerySection) gallerySection.style.display = 'none';
 
-            if (imageUrls.length > 0 && imageUrls[0].trim() !== '') {
+        if (data.gallery_images) {
+            const imageUrls = data.gallery_images.split(',');
+            const validUrls = imageUrls.filter(url => url && url.trim() !== '');
+
+            if (validUrls.length > 0) {
                 gallerySection.style.display = 'flex';
                 galleryContainer.innerHTML = '';
-                imageUrls.forEach(url => {
+                validUrls.forEach(url => {
                     const cleanUrl = url.trim();
                     if (cleanUrl) {
                         const img = document.createElement('img');
@@ -192,10 +200,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // --- RENDER LOVE STORY ---
         const storySection = document.getElementById('love-story');
         const storyContainer = document.getElementById('story-container');
+        if (storySection) storySection.style.display = 'none';
+
         if (data.love_story) {
             try {
                 const stories = typeof data.love_story === 'string' ? JSON.parse(data.love_story) : data.love_story;
-                if (stories && stories.length > 0) {
+                if (Array.isArray(stories) && stories.length > 0) {
                     storySection.style.display = 'flex';
                     storyContainer.innerHTML = '';
                     stories.forEach((st, idx) => {
@@ -214,10 +224,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // --- RENDER BANK ACCOUNTS (AMPLOP DIGITAL) ---
         const giftSection = document.getElementById('wedding-gift');
         const bankContainer = document.getElementById('bank-container');
+        if (giftSection) giftSection.style.display = 'none';
+
         if (data.bank_accounts) {
             try {
                 const banks = typeof data.bank_accounts === 'string' ? JSON.parse(data.bank_accounts) : data.bank_accounts;
-                if (banks && banks.length > 0) {
+                if (Array.isArray(banks) && banks.length > 0) {
                     giftSection.style.display = 'flex';
                     bankContainer.innerHTML = '';
                     banks.forEach((b, idx) => {
@@ -239,6 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } catch(e) { console.error("Format Bank salah", e); }
         }
+
 
         // --- RENDER WISHES / UCAPAN ---
         const wishesContainer = document.getElementById('wishes-container');
